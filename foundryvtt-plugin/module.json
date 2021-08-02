@@ -24,6 +24,5 @@
             "type": "system"
         }
     ],
-    "esmodules": ["scripts/main.js"],
-    "socket": true
+    "esmodules": ["scripts/main.js"]
 }
