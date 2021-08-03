@@ -1,0 +1,12 @@
+{
+  "name": "D&D Beyond Sync",
+  "description": "Two way sync between D&D Beyond and FoundryVTT.",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "permissions": ["storage", "activeTab", "tabs", "scripting"],
+  "host_permissions": ["*://*.dndbeyond.com/*", "*://*.forge-vtt.com/*"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  }
+}
