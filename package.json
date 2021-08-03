@@ -1,11 +1,11 @@
 {
-    "name": "dndbeyond-sync",
-    "version": "1.0.0",
-    "repository": "https://github.com/PragmaticBeaver/dndbeyond-sync.git",
-    "author": "PragmaticBeaver",
-    "license": "MIT",
-    "devDependencies": {
-        "eslint": "^7.32.0",
-        "prettier": "^2.3.2"
-    }
+  "name": "dndbeyond-sync",
+  "version": "1.0.0",
+  "repository": "https://github.com/PragmaticBeaver/dndbeyond-sync.git",
+  "author": "PragmaticBeaver",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "prettier": "^2.3.2"
+  }
 }
