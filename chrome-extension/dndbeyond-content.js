@@ -13,3 +13,18 @@ s.onload = function () {
   this.remove();
 };
 (document.head || document.documentElement).appendChild(s);
+
+// receive msg from injection.js
+document.addEventListener("dndbeyond-sync-from-beyond", (...args) => {
+  console.log("received args:");
+  console.log(args);
+});
+
+// send msg to injection.js
+// timeout for test reasons
+const syncEvent = new CustomEvent("dndbeyond-sync-to-beyond", {
+  detail: { change: "sync-to-beyond" },
+});
+setTimeout(() => {
+  document.dispatchEvent(syncEvent);
+}, 1000);

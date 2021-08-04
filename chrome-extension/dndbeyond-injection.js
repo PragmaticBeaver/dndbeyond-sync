@@ -19,5 +19,16 @@ observer.observe(document, {
   childList: true,
   characterData: true,
 });
-
 // todo observer.disconnect(); ?
+
+// reveive msg from content.js
+document.addEventListener("dndbeyond-sync-to-beyond", (...args) => {
+  console.log("received args:");
+  console.log(args);
+});
+
+// send msg to content.js
+const syncEvent = new CustomEvent("dndbeyond-sync-from-beyond", {
+  detail: { change: "sync-from-beyond" },
+});
+document.dispatchEvent(syncEvent);
