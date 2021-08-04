@@ -5,8 +5,22 @@
   "manifest_version": 3,
   "permissions": ["storage", "activeTab", "tabs", "scripting"],
   "host_permissions": ["*://*.dndbeyond.com/*", "*://*.forge-vtt.com/*"],
+  "web_accessible_resources": [
+    {
+      "resources": ["dndbeyond-injection.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
   "background": {
     "service_worker": "background.js",
     "type": "module"
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.dndbeyond.com/*"],
+      "css": [],
+      "js": ["dndbeyond-content.js"],
+      "all_frames": true
+    }
+  ]
 }

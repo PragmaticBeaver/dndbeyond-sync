@@ -1,4 +1,4 @@
-console.log("hello world");
+console.log("hello from the service_worker");
 
 const FOUNDRYVTT_URL = "*://*/game";
 const DNDBEYOND_CHARACTER_URL = "*://*.dndbeyond.com/*characters/*";
@@ -11,30 +11,41 @@ const DNDBEYOND_VEHICLE_URL = "*://*.dndbeyond.com/vehicles/*";
 const DNDBEYOND_SOURCES_URL = "*://*.dndbeyond.com/sources/*";
 const DNDBEYOND_CLASSES_URL = "*://*.dndbeyond.com/classes/*";
 
-function onMessage(request, sender, sendResponse) {
-  console.log(request, sender, sendResponse);
-}
+// // react to msg
+// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+//   console.log("onMessage:");
+//   console.log(message, sender, sendResponse);
+//   sendResponse(message + " to you");
+// });
 
-// react to msg
-chrome.runtime.onMessage.addListener(onMessage);
+// // send msg
+// function sendMessageTo(url, message) {
+//   // chrome.tabs.query({ url }, (tabs) => {
+//   //   for (let tab of tabs) {
+//   //     chrome.tabs.sendMessage(tab.id, request);
+//   //   }
+//   // });
+//   chrome.runtime.sendMessage("hello", (response) => {
+//     console.log("sendMessage response:");
+//     console.log(response);
+//   });
+// }
 
-// send msg
-function sendMessageTo(url, request) {
-  chrome.tabs.query({ url }, (tabs) => {
-    for (let tab of tabs) {
-      chrome.tabs.sendMessage(tab.id, request);
-    }
-  });
-}
+// function sendMessageToBeyond(message) {
+//   console.log("sending msg to beyond ...");
+//   sendMessageTo(DNDBEYOND_CHARACTER_URL, message);
+//   // sendMessageTo(DNDBEYOND_MONSTER_URL, message);
+//   // sendMessageTo(DNDBEYOND_ENCOUNTER_URL, message);
+//   // sendMessageTo(DNDBEYOND_ENCOUNTERS_URL, message);
+//   // sendMessageTo(DNDBEYOND_COMBAT_URL, message);
+//   // sendMessageTo(DNDBEYOND_SPELL_URL, message);
+//   // sendMessageTo(DNDBEYOND_VEHICLE_URL, message);
+//   // sendMessageTo(DNDBEYOND_SOURCES_URL, message);
+//   // sendMessageTo(DNDBEYOND_CLASSES_URL, message);
+// }
 
-function sendMessageToBeyond(request) {
-  sendMessageTo(DNDBEYOND_CHARACTER_URL, request);
-  sendMessageTo(DNDBEYOND_MONSTER_URL, request);
-  sendMessageTo(DNDBEYOND_ENCOUNTER_URL, request);
-  sendMessageTo(DNDBEYOND_ENCOUNTERS_URL, request);
-  sendMessageTo(DNDBEYOND_COMBAT_URL, request);
-  sendMessageTo(DNDBEYOND_SPELL_URL, request);
-  sendMessageTo(DNDBEYOND_VEHICLE_URL, request);
-  sendMessageTo(DNDBEYOND_SOURCES_URL, request);
-  sendMessageTo(DNDBEYOND_CLASSES_URL, request);
-}
+// // temp
+// chrome.alarms.onAlarm.addListener((alarm) => {
+//   sendMessageToBeyond("test");
+// });
+// chrome.alarms.create("Start", { when: Date.now() + 5000 });
