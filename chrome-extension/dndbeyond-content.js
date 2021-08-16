@@ -14,11 +14,18 @@ s.onload = function () {
 };
 (document.head || document.documentElement).appendChild(s);
 
-// receive msg from injection.js
-document.addEventListener("dndbeyond-sync-from-beyond", (...args) => {
-  console.log("received args", args);
-});
+/**
+ * Listens for messages from injection-script ("dndbeyond-sync-from-beyond" DOM events).
+ */
+function listenForInjectionEvents() {
+  document.addEventListener("dndbeyond-sync-from-beyond", (...args) => {
+    console.log("content: received args", args);
+  });
+}
 
+listenForInjectionEvents();
+
+// todo temp code
 // send msg to injection.js
 // timeout for test reasons
 const syncEvent = new CustomEvent("dndbeyond-sync-to-beyond", {
@@ -27,3 +34,5 @@ const syncEvent = new CustomEvent("dndbeyond-sync-to-beyond", {
 setTimeout(() => {
   document.dispatchEvent(syncEvent);
 }, 1000);
+
+const port = chrome.runtime.connect({ name: "" });

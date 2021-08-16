@@ -6,8 +6,21 @@ console.log("=>> I was injected!");
  *  send msg's => document.dispatchEvent
  */
 
+/**
+ * Listens for messages from content-script ("dndbeyond-sync-to-beyond" DOM events).
+ */
+function listenForContentEvents() {
+  document.addEventListener("dndbeyond-sync-to-beyond", (...args) => {
+    console.log("injection: received args", args);
+    // todo forward event to background.js
+  });
+}
+
+/**
+ * Dispatches custom DOM event on document using "dndbeyond-sync-from-beyond" as key.
+ * @param {*} blob message data
+ */
 function notifyContentScript(blob) {
-  // send msg to content.js
   const syncEvent = new CustomEvent("dndbeyond-sync-from-beyond", {
     detail: blob,
   });
@@ -15,6 +28,10 @@ function notifyContentScript(blob) {
   document.dispatchEvent(syncEvent);
 }
 
+/**
+ * Injects notification callback into ability buttons.
+ * @returns boolean - sucess or failure
+ */
 function injectAbilities() {
   const abilities = document.getElementsByClassName(
     "ct-quick-info__abilities"
@@ -83,11 +100,7 @@ observer.observe(document, {
   subtree: true,
 });
 
-// reveive msg from content.js
-document.addEventListener("dndbeyond-sync-to-beyond", (...args) => {
-  console.log("received args:");
-  console.log(args);
-});
+listenForContentEvents();
 
 // send msg to content.js
 const syncEvent = new CustomEvent("dndbeyond-sync-from-beyond", {
