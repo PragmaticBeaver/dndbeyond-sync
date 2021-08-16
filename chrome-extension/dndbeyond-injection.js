@@ -1,12 +1,6 @@
 console.log("=>> I was injected!");
 
 /**
- * todo
- *  receive msg's => document.addEventListener
- *  send msg's => document.dispatchEvent
- */
-
-/**
  * Listens for messages from content-script ("dndbeyond-sync-to-beyond" DOM events).
  */
 function listenForContentEvents() {
@@ -64,6 +58,7 @@ function injectAbilities() {
       "ddbc-signed-number__sign"
     )[0].textContent;
 
+    // todo convert to ability roll
     const ability = {
       name: abilityName,
       score: abilityScore,
