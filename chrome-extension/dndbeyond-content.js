@@ -17,36 +17,29 @@ s.onload = function () {
 // connect to background.js
 const port = chrome.runtime.connect({ name: "dndbeyond-sync" });
 
+function notifyBackgroundScript(blob) {
+  port.postMessage(blob);
+}
+
 /**
  * Listens for messages from injection-script ("dndbeyond-sync-from-beyond" DOM events).
  */
 function listenForInjectionEvents() {
-  document.addEventListener("dndbeyond-sync-from-beyond", (...args) => {
+  document.addEventListener("dndbeyond-sync-from-beyond", (args) => {
     console.log("content: received args", args);
+    notifyBackgroundScript(args.detail);
   });
 }
 
-function listenForBackgroundEvents(port) {
+/**
+ * Listens for messages from background-script (port name: "dndbeyond-sync").
+ */
+function listenForBackgroundEvents() {
   port.onMessage.addListener((msg) => {
     console.log("content: msg from background.js", msg);
+    // todo notify injection.js
   });
 }
 
 listenForInjectionEvents();
-listenForBackgroundEvents(port);
-
-// todo - temp code
-// send msg to injection.js
-// timeout for test reasons
-const syncEvent = new CustomEvent("dndbeyond-sync-to-beyond", {
-  detail: { change: "sync-to-beyond" },
-});
-setTimeout(() => {
-  document.dispatchEvent(syncEvent);
-}, 1000);
-
-// todo - temp code
-// send msg to background.js
-setTimeout(() => {
-  port.postMessage({ val: "hello from content.js" });
-}, 1000);
+listenForBackgroundEvents();

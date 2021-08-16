@@ -12,7 +12,7 @@ console.log("=>> I was injected!");
 function listenForContentEvents() {
   document.addEventListener("dndbeyond-sync-to-beyond", (...args) => {
     console.log("injection: received args", args);
-    // todo forward event to background.js
+    // todo mutate DOM
   });
 }
 
@@ -101,9 +101,3 @@ observer.observe(document, {
 });
 
 listenForContentEvents();
-
-// send msg to content.js
-const syncEvent = new CustomEvent("dndbeyond-sync-from-beyond", {
-  detail: { change: "sync-from-beyond" },
-});
-document.dispatchEvent(syncEvent);
