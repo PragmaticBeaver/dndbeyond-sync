@@ -6,6 +6,15 @@ console.log("=>> I was injected!");
  *  send msg's => document.dispatchEvent
  */
 
+function notifyContentScript(blob) {
+  // send msg to content.js
+  const syncEvent = new CustomEvent("dndbeyond-sync-from-beyond", {
+    detail: blob,
+  });
+  console.log("notify content-script", syncEvent);
+  document.dispatchEvent(syncEvent);
+}
+
 function injectAbilities() {
   const abilities = document.getElementsByClassName(
     "ct-quick-info__abilities"
@@ -48,6 +57,7 @@ function injectAbilities() {
     btn.onclick = () => {
       console.log("i got overridden!");
       console.log("ability", ability);
+      notifyContentScript(ability);
     };
   }
   return true;
