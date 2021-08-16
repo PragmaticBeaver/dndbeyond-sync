@@ -16,8 +16,7 @@ s.onload = function () {
 
 // receive msg from injection.js
 document.addEventListener("dndbeyond-sync-from-beyond", (...args) => {
-  console.log("received args:");
-  console.log(args);
+  console.log("received args", args);
 });
 
 // send msg to injection.js
