@@ -14,6 +14,9 @@ s.onload = function () {
 };
 (document.head || document.documentElement).appendChild(s);
 
+// connect to background.js
+const port = chrome.runtime.connect({ name: "dndbeyond-sync" });
+
 /**
  * Listens for messages from injection-script ("dndbeyond-sync-from-beyond" DOM events).
  */
@@ -23,9 +26,16 @@ function listenForInjectionEvents() {
   });
 }
 
-listenForInjectionEvents();
+function listenForBackgroundEvents(port) {
+  port.onMessage.addListener((msg) => {
+    console.log("content: msg from background.js", msg);
+  });
+}
 
-// todo temp code
+listenForInjectionEvents();
+listenForBackgroundEvents(port);
+
+// todo - temp code
 // send msg to injection.js
 // timeout for test reasons
 const syncEvent = new CustomEvent("dndbeyond-sync-to-beyond", {
@@ -35,4 +45,8 @@ setTimeout(() => {
   document.dispatchEvent(syncEvent);
 }, 1000);
 
-const port = chrome.runtime.connect({ name: "" });
+// todo - temp code
+// send msg to background.js
+setTimeout(() => {
+  port.postMessage({ val: "hello from content.js" });
+}, 1000);
