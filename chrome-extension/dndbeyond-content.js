@@ -1,4 +1,4 @@
-console.log("=>> hello from contentScript");
+console.log("=>> dndbeyond - hello from contentScript");
 
 // todo extract dndbeyond logic into seperate scripts
 // => (characters, monsters, vehicles, spells, equipment, sources, classes, encounters)

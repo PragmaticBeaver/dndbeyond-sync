@@ -1,4 +1,4 @@
-console.log("=>> I was injected!");
+console.log("=>> dndbeyond - I was injected!");
 
 /**
  * Listens for messages from content-script ("dndbeyond-sync-to-beyond" DOM events).
