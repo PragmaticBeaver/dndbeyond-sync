@@ -4,10 +4,10 @@
   "version": "1.0.0",
   "manifest_version": 3,
   "permissions": ["storage", "activeTab", "tabs", "scripting"],
-  "host_permissions": ["*://*.dndbeyond.com/*", "*://*.forge-vtt.com/*"],
+  "host_permissions": ["*://*.dndbeyond.com/*", "*://*/game"],
   "web_accessible_resources": [
     {
-      "resources": ["dndbeyond-injection.js"],
+      "resources": ["dndbeyond-injection.js", "foundry-injection.js"],
       "matches": ["<all_urls>"]
     }
   ],
@@ -20,6 +20,12 @@
       "matches": ["*://*.dndbeyond.com/*"],
       "css": [],
       "js": ["dndbeyond-content.js"],
+      "all_frames": true
+    },
+    {
+      "matches": ["*://*/game"],
+      "css": [],
+      "js": ["foundry-content.js"],
       "all_frames": true
     }
   ]
