@@ -24,7 +24,7 @@ function notifyBackgroundScript(blob) {
 /**
  * Listens for messages from injection-script ("dndbeyond-sync-from-beyond" DOM events).
  */
-function listenForInjectionEvents() {
+function listenForDOMEvents() {
   document.addEventListener("dndbeyond-sync-from-beyond", (args) => {
     console.log("content: received args", args);
     notifyBackgroundScript(args.detail);
@@ -34,12 +34,12 @@ function listenForInjectionEvents() {
 /**
  * Listens for messages from background-script (port name: "dndbeyond-sync").
  */
-function listenForBackgroundEvents() {
+function listenForIncomingEvents() {
   port.onMessage.addListener((msg) => {
     console.log("content: msg from background.js", msg);
     // todo notify injection.js
   });
 }
 
-listenForInjectionEvents();
-listenForBackgroundEvents();
+listenForDOMEvents();
+listenForIncomingEvents();

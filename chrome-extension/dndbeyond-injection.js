@@ -3,7 +3,7 @@ console.log("=>> I was injected!");
 /**
  * Listens for messages from content-script ("dndbeyond-sync-to-beyond" DOM events).
  */
-function listenForContentEvents() {
+function listenForIncomingEvents() {
   document.addEventListener("dndbeyond-sync-to-beyond", (...args) => {
     console.log("injection: received args", args);
     // todo mutate DOM
@@ -14,7 +14,7 @@ function listenForContentEvents() {
  * Dispatches custom DOM event on document using "dndbeyond-sync-from-beyond" as key.
  * @param {*} blob message data
  */
-function notifyContentScript(blob) {
+function notify(blob) {
   const syncEvent = new CustomEvent("dndbeyond-sync-from-beyond", {
     detail: blob,
   });
@@ -69,7 +69,7 @@ function injectAbilities() {
     btn.onclick = () => {
       console.log("i got overridden!");
       console.log("ability", ability);
-      notifyContentScript(ability);
+      notify(ability);
     };
   }
   return true;
@@ -95,4 +95,4 @@ observer.observe(document, {
   subtree: true,
 });
 
-listenForContentEvents();
+listenForIncomingEvents();
