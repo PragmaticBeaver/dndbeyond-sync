@@ -11,6 +11,7 @@ const DNDBEYOND_VEHICLE_URL = "*://*.dndbeyond.com/vehicles/*";
 const DNDBEYOND_SOURCES_URL = "*://*.dndbeyond.com/sources/*";
 const DNDBEYOND_CLASSES_URL = "*://*.dndbeyond.com/classes/*";
 
+// listen for connections
 chrome.runtime.onConnect.addListener((port) => {
   console.log("port", port);
 
@@ -18,6 +19,7 @@ chrome.runtime.onConnect.addListener((port) => {
     return;
   }
 
+  // handle message from connected content-script
   port.onMessage.addListener((msg) => {
     console.log("msg", msg);
   });
