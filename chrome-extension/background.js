@@ -11,16 +11,32 @@ const DNDBEYOND_VEHICLE_URL = "*://*.dndbeyond.com/vehicles/*";
 const DNDBEYOND_SOURCES_URL = "*://*.dndbeyond.com/sources/*";
 const DNDBEYOND_CLASSES_URL = "*://*.dndbeyond.com/classes/*";
 
+function handleBeyondConnection(port) {
+  port.onMessage.addListener((msg) => {
+    // todo
+    console.log("msg from beyond", msg);
+  });
+}
+
+function handleFoundryConnection(port) {
+  port.onMessage.addListener((msg) => {
+    // todo
+    console.log("msg from foundry", msg);
+  });
+}
+
 // listen for connections
 chrome.runtime.onConnect.addListener((port) => {
   console.log("port", port);
 
-  if (port.name !== "dndbeyond-sync") {
-    return;
+  switch (port.name) {
+    case "dndbeyond-sync":
+      handleBeyondConnection(port);
+      break;
+    case "foundry-sync":
+      handleFoundryConnection(port);
+      break;
+    default:
+      return;
   }
-
-  // handle message from connected content-script
-  port.onMessage.addListener((msg) => {
-    console.log("msg", msg);
-  });
 });
