@@ -3,7 +3,12 @@
   "repository": "https://github.com/PragmaticBeaver/dndbeyond-sync.git",
   "author": "PragmaticBeaver",
   "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build:chrome": "node ./build/build-extension.js"
+  },
   "devDependencies": {
+    "esbuild": "^0.12.21",
     "eslint": "^7.32.0",
     "prettier": "^2.3.2"
   }
