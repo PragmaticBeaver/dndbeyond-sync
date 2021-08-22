@@ -1,4 +1,5 @@
 import { EVENT_FROM_DNDBEYOND, EVENT_TO_DNDBEYOND } from "../common.js";
+import { notify } from "../communication.js";
 
 console.log("=>> dndbeyond - I was injected!");
 
@@ -10,18 +11,6 @@ function listenForIncomingEvents() {
     console.log("injection: received args", args);
     // todo mutate DOM
   });
-}
-
-/**
- * Dispatches custom DOM event on document using "dndbeyond-sync-from-beyond" as key.
- * @param {*} blob message data
- */
-function notify(blob) {
-  const syncEvent = new CustomEvent(EVENT_FROM_DNDBEYOND, {
-    detail: blob,
-  });
-  console.log("notify content-script", syncEvent);
-  document.dispatchEvent(syncEvent);
 }
 
 /**
@@ -71,16 +60,13 @@ function injectAbilities() {
     btn.onclick = () => {
       console.log("i got overridden!");
       console.log("ability", ability);
-      notify(ability);
+      notify(EVENT_FROM_DNDBEYOND, ability);
     };
   }
   return true;
 }
 
 function tryInject(mutations, observer) {
-  console.log("DOM changed;");
-  console.log(mutations, observer);
-
   const abilitiesSucess = injectAbilities();
 
   if (abilitiesSucess) {

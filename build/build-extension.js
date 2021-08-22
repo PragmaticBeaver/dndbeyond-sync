@@ -54,13 +54,3 @@ build({
   bundle: true,
   outdir: outDir,
 }).catch(() => process.exit(1));
-
-// build foundry injection
-const foundryInjectionFiles = [
-  path.join(rootPath, "foundry", "foundry-injection.js"),
-];
-build({
-  entryPoints: foundryInjectionFiles,
-  bundle: true,
-  outdir: outDir,
-}).catch(() => process.exit(1));

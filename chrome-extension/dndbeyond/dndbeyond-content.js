@@ -1,6 +1,11 @@
-import { DNDBEYOND_PORT_ID, EVENT_FROM_DNDBEYOND } from "../common.js";
+import {
+  DNDBEYOND_PORT_ID,
+  EVENT_FROM_DNDBEYOND,
+  EVENT_TO_DNDBEYOND,
+} from "../common.js";
 import {
   connectContentScript,
+  notify,
   notifyBackgroundScript,
 } from "../communication.js";
 
@@ -39,7 +44,7 @@ function listenForDOMEvents() {
 function listenForIncomingEvents() {
   port.onMessage.addListener((msg) => {
     console.log("content: msg from background.js", msg);
-    // todo notify injection.js
+    notify(EVENT_TO_DNDBEYOND, msg);
   });
 }
 
