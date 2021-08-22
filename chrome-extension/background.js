@@ -29,7 +29,9 @@ function handleBeyondConnection(port) {
   port.onMessage.addListener((msg) => {
     console.log("msg from beyond", msg);
     const foundryPort = PORTS[FOUNDRY_PORT_ID];
-    foundryPort.postMessage(msg);
+    if (foundryPort) {
+      foundryPort.postMessage(msg);
+    }
   });
 
   port.onDisconnect.addListener(() => {
@@ -43,7 +45,9 @@ function handleFoundryConnection(port) {
   port.onMessage.addListener((msg) => {
     console.log("msg from foundry", msg);
     const beyondPort = PORTS[DNDBEYOND_PORT_ID];
-    beyondPort.postMessage(msg);
+    if (beyondPort) {
+      beyondPort.postMessage(msg);
+    }
   });
 
   port.onDisconnect.addListener(() => {
