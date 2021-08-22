@@ -1,3 +1,9 @@
+import { DNDBEYOND_PORT_ID, EVENT_FROM_DNDBEYOND } from "./common.js";
+import {
+  connectContentScript,
+  notifyBackgroundScript,
+} from "./communication.js";
+
 console.log("=>> dndbeyond - hello from contentScript");
 
 // todo extract dndbeyond logic into seperate scripts
@@ -15,19 +21,15 @@ s.onload = function () {
 (document.head || document.documentElement).appendChild(s);
 
 // connect to background.js
-const port = chrome.runtime.connect({ name: "dndbeyond-sync" });
-
-function notifyBackgroundScript(blob) {
-  port.postMessage(blob);
-}
+const port = connectContentScript(DNDBEYOND_PORT_ID);
 
 /**
  * Listens for messages from injection-script ("dndbeyond-sync-from-beyond" DOM events).
  */
 function listenForDOMEvents() {
-  document.addEventListener("dndbeyond-sync-from-beyond", (args) => {
+  document.addEventListener(EVENT_FROM_DNDBEYOND, (args) => {
     console.log("content: received args", args);
-    notifyBackgroundScript(args.detail);
+    notifyBackgroundScript(port, args.detail);
   });
 }
 

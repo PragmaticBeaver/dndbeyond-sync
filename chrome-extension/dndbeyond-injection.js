@@ -1,10 +1,12 @@
+import { EVENT_FROM_DNDBEYOND, EVENT_TO_DNDBEYOND } from "./common.js";
+
 console.log("=>> dndbeyond - I was injected!");
 
 /**
  * Listens for messages from content-script ("dndbeyond-sync-to-beyond" DOM events).
  */
 function listenForIncomingEvents() {
-  document.addEventListener("dndbeyond-sync-to-beyond", (...args) => {
+  document.addEventListener(EVENT_TO_DNDBEYOND, (...args) => {
     console.log("injection: received args", args);
     // todo mutate DOM
   });
@@ -15,7 +17,7 @@ function listenForIncomingEvents() {
  * @param {*} blob message data
  */
 function notify(blob) {
-  const syncEvent = new CustomEvent("dndbeyond-sync-from-beyond", {
+  const syncEvent = new CustomEvent(EVENT_FROM_DNDBEYOND, {
     detail: blob,
   });
   console.log("notify content-script", syncEvent);
