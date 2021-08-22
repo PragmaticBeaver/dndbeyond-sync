@@ -2,6 +2,18 @@ const EVENT_FROM_FOUNDRY = "dndbeyond-sync-from-foundry";
 const EVENT_TO_FOUNDRY = "dndbeyond-sync-to-foundry";
 
 /**
+ * Dispatches custom DOM event on document using "EVENT_FROM_FOUNDRY" as key.
+ * @param {*} blob message data
+ */
+export function notify(blob) {
+  const syncEvent = new CustomEvent(EVENT_FROM_FOUNDRY, {
+    detail: blob,
+  });
+  console.log("notify", EVENT_FROM_FOUNDRY, blob);
+  document.dispatchEvent(syncEvent);
+}
+
+/**
  * Listens for messages from dndbeyond-sync extension ("dndbeyond-sync-to-foundry" DOM events).
  */
 function listenForIncomingEvents() {
@@ -35,7 +47,7 @@ Hooks.on("updateActor", (actor, change, options, userId) => {
   }
 
   console.log("actor-update from myself");
-  // todo notify beyond
+  notify(change);
 });
 
 Hooks.on("modifyTokenAttribute", (token, change, options, userId) => {
@@ -80,3 +92,8 @@ Hooks.on("dropActorSheetData", (actor, actorSheet, data) => {
 //     console.log("compendium-update from: " + userId);
 //     console.log(pack, change, options, userId);
 // });
+
+/**
+ * todo
+ *  => find a way to destinguish events (events are always meant for specific PC / GM)
+ */
