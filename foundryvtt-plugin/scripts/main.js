@@ -47,7 +47,8 @@ Hooks.on("updateActor", (actor, change, options, userId) => {
   }
 
   console.log("actor-update from myself");
-  notify(change);
+  const blob = { actor: actor.data.name, change, userId };
+  notify(blob);
 });
 
 Hooks.on("modifyTokenAttribute", (token, change, options, userId) => {
