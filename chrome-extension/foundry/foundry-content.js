@@ -9,8 +9,6 @@ import {
   notifyBackgroundScript,
 } from "../communication.js";
 
-console.log("=>> foundry - hello from contentScript");
-
 /**
  * inject script inside document to get control of DOM
  * https://stackoverflow.com/questions/9515704/use-a-content-script-to-access-the-page-context-variables-and-functions

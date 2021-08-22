@@ -9,8 +9,6 @@ import {
   notifyBackgroundScript,
 } from "../communication.js";
 
-console.log("=>> dndbeyond - hello from contentScript");
-
 // todo extract dndbeyond logic into seperate scripts
 // => (characters, monsters, vehicles, spells, equipment, sources, classes, encounters)
 

@@ -1,8 +1,6 @@
 import { EVENT_FROM_DNDBEYOND, EVENT_TO_DNDBEYOND } from "../common.js";
 import { notify } from "../communication.js";
 
-console.log("=>> dndbeyond - I was injected!");
-
 /**
  * Listens for messages from content-script ("dndbeyond-sync-to-beyond" DOM events).
  */
