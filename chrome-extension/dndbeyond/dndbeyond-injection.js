@@ -1,4 +1,4 @@
-import { EVENT_FROM_DNDBEYOND, EVENT_TO_DNDBEYOND } from "./common.js";
+import { EVENT_FROM_DNDBEYOND, EVENT_TO_DNDBEYOND } from "../common.js";
 
 console.log("=>> dndbeyond - I was injected!");
 

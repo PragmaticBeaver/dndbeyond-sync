@@ -1,4 +1,4 @@
-import { EVENT_FROM_FOUNDRY, EVENT_TO_FOUNDRY } from "./common.js";
+import { EVENT_FROM_FOUNDRY, EVENT_TO_FOUNDRY } from "../common.js";
 
 console.log("=>> foundry - I was injected!");
 

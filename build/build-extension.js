@@ -1,19 +1,10 @@
 import { build } from "esbuild";
 import fs from "fs";
+import path from "path";
 
 const rootPath = "./chrome-extension/";
 const distDir = "./dist";
 const outDir = distDir + "/extension";
-
-function getFiles(dir) {
-  return fs.readdirSync(dir).filter((src) => src.endsWith(".js"));
-}
-
-function appendRootDir(files) {
-  return files.map((file) => {
-    return rootPath + file;
-  });
-}
 
 // create dist directories
 if (!fs.existsSync(distDir)) {
@@ -27,8 +18,7 @@ if (!fs.existsSync(outDir)) {
 fs.copyFileSync(rootPath + "manifest.json", outDir + "/manifest.json");
 
 // build background
-let backgroundFiles = ["background.js"]; // todo use getFiles in future
-backgroundFiles = appendRootDir(backgroundFiles);
+const backgroundFiles = [path.join(rootPath, "background.js")];
 build({
   entryPoints: backgroundFiles,
   bundle: true,
@@ -36,8 +26,9 @@ build({
 }).catch(() => process.exit(1));
 
 // build dndbeyond content
-let beyondContentFiles = ["dndbeyond-content.js"]; // todo use getFiles in future
-beyondContentFiles = appendRootDir(beyondContentFiles);
+const beyondContentFiles = [
+  path.join(rootPath, "dndbeyond", "dndbeyond-content.js"),
+];
 build({
   entryPoints: beyondContentFiles,
   bundle: true,
@@ -45,8 +36,9 @@ build({
 }).catch(() => process.exit(1));
 
 // build dndbeyond injection
-let beyondInjectionFiles = ["dndbeyond-injection.js"]; // todo use getFiles in future
-beyondInjectionFiles = appendRootDir(beyondInjectionFiles);
+const beyondInjectionFiles = [
+  path.join(rootPath, "dndbeyond", "dndbeyond-injection.js"),
+];
 build({
   entryPoints: beyondInjectionFiles,
   bundle: true,
@@ -54,8 +46,9 @@ build({
 }).catch(() => process.exit(1));
 
 // build foundry content
-let foundryContentFiles = ["foundry-content.js"]; // todo use getFiles in future
-foundryContentFiles = appendRootDir(foundryContentFiles);
+const foundryContentFiles = [
+  path.join(rootPath, "foundry", "foundry-content.js"),
+];
 build({
   entryPoints: foundryContentFiles,
   bundle: true,
@@ -63,8 +56,9 @@ build({
 }).catch(() => process.exit(1));
 
 // build foundry injection
-let foundryInjectionFiles = ["foundry-injection.js"]; // todo use getFiles in future
-foundryInjectionFiles = appendRootDir(foundryInjectionFiles);
+const foundryInjectionFiles = [
+  path.join(rootPath, "foundry", "foundry-injection.js"),
+];
 build({
   entryPoints: foundryInjectionFiles,
   bundle: true,
