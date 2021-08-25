@@ -13,8 +13,6 @@ console.log("hello from background.js");
 // const DNDBEYOND_SOURCES_URL = "*://*.dndbeyond.com/sources/*";
 // const DNDBEYOND_CLASSES_URL = "*://*.dndbeyond.com/classes/*";
 
-// const DNDBEYOND_PORT_ID = "dndbeyond-sync";
-// const FOUNDRY_PORT_ID = "foundry-sync";
 const PORTS = {};
 
 function cachePort(port) {
