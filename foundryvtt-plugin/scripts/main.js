@@ -120,7 +120,41 @@ function injectActorOptionsMenu() {
   btn.innerHTML += "Configure Actor";
   btn.onclick = () => {
     console.log("configure actor clicked!");
+    openActorConfigDialog();
   };
 
   menuBar.appendChild(btn);
+}
+
+function openActorConfigDialog() {
+  const container = document.createElement("div");
+  container.innerText = "You must choose either Option 1, or Option 2";
+
+  /**
+   * todo
+   *  =>> get all PCs
+   *  =>> render PC icon, name, textfield with beyond url (empty if no url set)
+   */
+
+  const content = container.outerHTML;
+
+  let d = new Dialog({
+    title: "D&D Beyond Sync - Configure PCs",
+    content,
+    buttons: {
+      done: {
+        icon: '<i class="fas fa-check"></i>',
+        label: "Done",
+        callback: () => console.log("clicked done"),
+      },
+    },
+    default: "done",
+    render: (html) =>
+      console.log("onRender - Register interactivity in the rendered dialog"),
+    close: (html) => {
+      console.log("closed dialog");
+      // todo save into actor / actor-sheets (?)
+    },
+  });
+  d.render(true);
 }
