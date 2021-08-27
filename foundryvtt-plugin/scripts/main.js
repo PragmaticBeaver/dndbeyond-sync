@@ -23,6 +23,16 @@ function listenForIncomingEvents() {
   });
 }
 
+/**
+ * Gathers the ID's of currently available PC-sheet's from the global foundryVTT CONFIG.
+ * @returns {string[]} List of active PC-sheet ID's.
+ */
+function getPCSheetIds() {
+  return Object.values(CONFIG.Actor.sheetClasses.character)
+    .map((sheet) => sheet.cls)
+    .map((sheetClass) => sheetClass.name);
+}
+
 Hooks.on("init", () => {
   console.log("dndbeyond-sync | initalizing ...");
   // todo check connection to browser-extension, only notify if connected ?
@@ -36,6 +46,9 @@ Hooks.on("ready", () => {
   //  ==>>  show dialog to user and ask which side to sync (use Beyond data / use Foundry data)
   injectActorOptionsMenu();
   listenForIncomingEvents();
+  injectPCsheetOptionsBtn();
+
+  console.log("isGM", game.user.isGM);
 });
 
 // gets called when ???
@@ -96,6 +109,22 @@ Hooks.on("updateCompendium", (pack, change, options, userId) => {
   console.log("compendium-update from: " + userId);
   console.log(pack, change, options, userId);
 });
+
+Hooks.on("renderDocument", (...args) => {
+  console.log("renderDocument", args);
+});
+
+/**
+ * Injects the dndbeyond-sync Button into each PC Sheet.
+ */
+function injectPCsheetOptionsBtn() {
+  const sheetIds = getPCSheetIds();
+  for (const id of sheetIds) {
+    Hooks.on("render" + id, (app, html, data) => {
+      console.log("render" + id, app, html, data);
+    });
+  }
+}
 
 /**
  * todo
