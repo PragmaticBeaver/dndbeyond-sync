@@ -1,37 +1,6 @@
-const EVENT_FROM_FOUNDRY = "dndbeyond-sync-from-foundry";
-const EVENT_TO_FOUNDRY = "dndbeyond-sync-to-foundry";
-
-/**
- * Dispatches custom DOM event on document using "EVENT_FROM_FOUNDRY" as key.
- * @param {*} blob message data
- */
-export function notify(blob) {
-  const syncEvent = new CustomEvent(EVENT_FROM_FOUNDRY, {
-    detail: blob,
-  });
-  console.log("notify", EVENT_FROM_FOUNDRY, blob);
-  document.dispatchEvent(syncEvent);
-}
-
-/**
- * Listens for messages from dndbeyond-sync extension ("dndbeyond-sync-to-foundry" DOM events).
- */
-function listenForIncomingEvents() {
-  document.addEventListener(EVENT_TO_FOUNDRY, (...args) => {
-    console.log("received args", args);
-    // todo mutate VTT
-  });
-}
-
-/**
- * Gathers the ID's of currently available PC-sheet's from the global foundryVTT CONFIG.
- * @returns {string[]} List of active PC-sheet ID's.
- */
-function getPCSheetIds() {
-  return Object.values(CONFIG.Actor.sheetClasses.character)
-    .map((sheet) => sheet.cls)
-    .map((sheetClass) => sheetClass.name);
-}
+import { getPCSheetIds } from "./actor.js";
+import { listenForIncomingEvents, notify } from "./communication.js";
+import { isGMInstance } from "./common.js";
 
 Hooks.on("init", () => {
   console.log("dndbeyond-sync | initalizing ...");
@@ -44,11 +13,8 @@ Hooks.on("ready", () => {
   // todo sync between foundry and beyond
   //  ==>>  check for changes
   //  ==>>  show dialog to user and ask which side to sync (use Beyond data / use Foundry data)
-  injectActorOptionsMenu();
+  injectPCsheetOptionsBtn(getPCSheetIds());
   listenForIncomingEvents();
-  injectPCsheetOptionsBtn();
-
-  console.log("isGM", game.user.isGM);
 });
 
 // gets called when ???
@@ -117,11 +83,44 @@ Hooks.on("renderDocument", (...args) => {
 /**
  * Injects the dndbeyond-sync Button into each PC Sheet.
  */
-function injectPCsheetOptionsBtn() {
-  const sheetIds = getPCSheetIds();
+function injectPCsheetOptionsBtn(sheetIds) {
+  if (!isGMInstance()) {
+    console.log("PC instance, skipping options button ...");
+    return;
+  }
+
   for (const id of sheetIds) {
     Hooks.on("render" + id, (app, html, data) => {
-      console.log("render" + id, app, html, data);
+      console.log("render", html);
+
+      // custom icon
+      const icon = document.createElement("i");
+      icon.classList = "fab fa-d-and-d-beyond";
+
+      // custom button
+      const btn = document.createElement("button");
+      btn.classList = "dndbeyondSync-menu-btn";
+      btn.appendChild(icon);
+      btn.onclick = () => {
+        console.log("configure actor clicked!");
+        openActorConfigDialog();
+      };
+
+      // custom div for flex-row
+      const container = document.createElement("div");
+      container.classList = "dndbeyondSync-menu";
+      container.appendChild(btn);
+
+      // vanilla pc name container
+      const plainHtml = html.get(0);
+      const nameContainer = plainHtml.getElementsByClassName("charname")[0]; //h1
+      nameContainer.classList = "dndbeyondSync-pc-name";
+
+      // move PC name-input into div
+      const nameInput = nameContainer.getElementsByTagName("input")[0];
+      container.appendChild(nameInput);
+
+      nameContainer.appendChild(container);
     });
   }
 }
@@ -131,29 +130,6 @@ function injectPCsheetOptionsBtn() {
  *  => find a way to destinguish events (events are always meant for specific PC / GM)
  *  => idea: save beyond URL (including PC ID) inside Foundry PC sheet
  */
-
-function injectActorOptionsMenu() {
-  // todo only render for DM!
-  const actorsTab = document.getElementById("actors");
-  const menuBar = actorsTab.getElementsByClassName(
-    "header-actions action-buttons flexrow"
-  )[0];
-  console.log("menuBar", menuBar);
-
-  const icon = document.createElement("i");
-  icon.classList = "fas fa-users-cog";
-
-  const btn = document.createElement("button");
-  btn.classList = "create-entity";
-  btn.appendChild(icon);
-  btn.innerHTML += "Configure Actor";
-  btn.onclick = () => {
-    console.log("configure actor clicked!");
-    openActorConfigDialog();
-  };
-
-  menuBar.appendChild(btn);
-}
 
 function openActorConfigDialog() {
   const container = document.createElement("div");

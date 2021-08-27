@@ -24,5 +24,6 @@
       "type": "system"
     }
   ],
-  "esmodules": ["scripts/main.js"]
+  "esmodules": ["scripts/main.js"],
+  "styles": ["styles/main.css"]
 }
