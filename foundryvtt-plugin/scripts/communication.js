@@ -1,4 +1,10 @@
-import { EVENT_FROM_FOUNDRY, EVENT_TO_FOUNDRY } from "./common.js";
+import {
+  CHARACTER_URLS,
+  EVENT_FROM_FOUNDRY,
+  EVENT_TO_FOUNDRY,
+} from "./common.js";
+
+import { loadData } from "./persistence.js";
 
 /**
  * Dispatches custom DOM event on document using "EVENT_FROM_FOUNDRY" as key.
@@ -19,24 +25,17 @@ export function listenForIncomingEvents() {
   document.addEventListener(EVENT_TO_FOUNDRY, (...args) => {
     for (const customEvt of args) {
       const evt = customEvt.detail;
-      console.log("=>> received", evt);
 
-      // todo is for current user?
-      console.log(CONFIG);
-      console.log(game); //game.user
-      const user = game.users.get(game.userId);
-      console.log("user", user);
-      const charId = user.data.character;
-      console.log("char", charId);
+      console.log("game.world", game.world);
 
-      const actor = game.actors.get(charId);
-      console.log("actor", actor);
-      const sheet = actor.sheet;
-      console.log("sheet", sheet);
+      const userUrl = loadData(CHARACTER_URLS);
+      console.log(userUrl);
+      if (evt.userUrl !== userUrl) {
+        return;
+      }
+      console.log("received event", evt);
 
       // todo handle GM
-
-      // todo mutate VTT
 
       // ability-roll
       if (evt.ability) {
@@ -48,6 +47,7 @@ export function listenForIncomingEvents() {
       // skill-roll
       if (evt.skill) {
         console.log("skill-roll", evt.skill);
+        // todo
       }
     }
   });

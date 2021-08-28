@@ -1,5 +1,5 @@
-import { isGMInstance } from "./common.js";
-import { CHARACTER_URLS, getFlag, setFlag } from "./data-flags.js";
+import { CHARACTER_URLS, isGMInstance } from "./common.js";
+import { loadData, saveData } from "./persistence.js";
 
 /**
  * Dynamically injects the dndbeyond-sync settings menu into each PC ActorSheet as soon as render Hook is called.
@@ -47,7 +47,7 @@ export function injectSettingsMenu(sheetIds) {
 }
 
 function openActorConfigDialog() {
-  const url = getFlag(game.user, CHARACTER_URLS) || "";
+  const url = loadData(CHARACTER_URLS) || "";
 
   /**
    * HTMLElement.outerHTML does't work for input.value!
@@ -75,7 +75,7 @@ function openActorConfigDialog() {
             "dndbeyondSync-pc-sync-input"
           ).value;
 
-          setFlag(game.user, CHARACTER_URLS, url);
+          saveData(CHARACTER_URLS, url); // todo implement multiple chars for one player
         },
       },
     },

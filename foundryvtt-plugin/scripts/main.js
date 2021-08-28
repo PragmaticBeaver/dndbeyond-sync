@@ -1,14 +1,16 @@
 import { getPCSheetIds } from "./actor.js";
 import { listenForIncomingEvents, notify } from "./communication.js";
 import { injectSettingsMenu } from "./settings-menu.js";
+import { registerPersistence } from "./persistence.js";
 
 /**
  * todo
  *  => find a way to destinguish events (events are always meant for specific PC / GM)
  */
 
-Hooks.on("init", () => {
+Hooks.on("init", async () => {
   console.log("dndbeyond-sync | initalizing ...");
+  await registerPersistence();
   // todo check connection to browser-extension, only notify if connected ?
   // =>> DM could use ONLY FoundryVTT and does not wish to sync anything by himself
 });
