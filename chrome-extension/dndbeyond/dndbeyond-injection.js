@@ -6,6 +6,19 @@ import {
 import { notify } from "../communication.js";
 
 /**
+ * todo
+ * initiative
+ * weapons (hit + damage)
+ * spells
+ * take DMG / heal
+ * inspiration
+ * passive stats
+ * feat / trait (post into foundry)
+ * use charge of magic item
+ * item sync (add / remove)
+ */
+
+/**
  * Listens for messages from content-script ("dndbeyond-sync-to-beyond" DOM events).
  */
 function listenForIncomingEvents() {
@@ -31,7 +44,6 @@ function injectAbilities() {
     return false;
   }
 
-  // create callback with clouje of these values
   const abilityContainers = abilities.getElementsByClassName(
     "ddbc-ability-summary"
   );
@@ -65,12 +77,44 @@ function injectAbilities() {
   return true;
 }
 
+/**
+ * Injects notification callback into ability-save buttons.
+ * @returns boolean - sucess or failure
+ */
+function injectAbilitieSaves() {
+  const savesContainer = document.getElementsByClassName(
+    "ddbc-saving-throws-summary"
+  )[0];
+  if (!savesContainer) {
+    return false;
+  }
+
+  for (const e of savesContainer.children) {
+    const val = e.getElementsByClassName(
+      "ddbc-saving-throws-summary__ability-name "
+    )[0].textContent;
+    const saveRoll = {
+      userUrl: getUserUrl(),
+      save: val,
+    };
+    const btn = e.getElementsByClassName("integrated-dice__container")[0];
+    btn.onclick = () => {
+      notify(EVENT_FROM_DNDBEYOND, saveRoll);
+    };
+  }
+  return true;
+}
+
+/**
+ * Injects notification callback into skill buttons.
+ * @returns boolean - sucess or failure
+ */
 function injectSkills() {
   const skillsContainer = document.getElementsByClassName("ct-skills__list")[0];
   if (!skillsContainer) {
     return false;
   }
-  console.log("skillsContainer", skillsContainer);
+
   const skillContainers =
     skillsContainer.getElementsByClassName("ct-skills__item");
   for (const sContainer of skillContainers) {
@@ -85,7 +129,6 @@ function injectSkills() {
       "integrated-dice__container"
     )[0];
     btn.onclick = () => {
-      console.log("was clicked", val);
       notify(EVENT_FROM_DNDBEYOND, skillRoll);
     };
   }
@@ -94,9 +137,10 @@ function injectSkills() {
 
 function tryInject(mutations, observer) {
   const abilitiesSucess = injectAbilities();
+  const abilitySavesSucess = injectAbilitieSaves();
   const skillsSucess = injectSkills();
 
-  if (abilitiesSucess && skillsSucess) {
+  if (abilitiesSucess && abilitySavesSucess && skillsSucess) {
     observer.disconnect();
   }
 }
