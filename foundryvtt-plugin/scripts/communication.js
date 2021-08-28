@@ -53,21 +53,18 @@ export function listenForIncomingEvents() {
       // ability-roll
       if (evt.ability) {
         console.log("ability-roll", evt.ability);
-        // todo roll d20 => CONFIG.Dice.D20Roll
-        // todo roll damage => CONFIG.Dice.DamageRoll
         handleAbilityCheck(evt);
       }
 
+      // ability-save
       if (evt.save) {
         console.log("ability-save", evt.save);
-        // todo
         handleAbilitySave(evt);
       }
 
       // skill-roll
       if (evt.skill) {
         console.log("skill-roll", evt.skill);
-        // todo
         handleSkillCheck(evt);
       }
     }

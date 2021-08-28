@@ -1,4 +1,8 @@
-import { EVENT_FROM_DNDBEYOND, EVENT_TO_DNDBEYOND } from "../common.js";
+import {
+  EVENT_FROM_DNDBEYOND,
+  EVENT_FROM_FOUNDRY,
+  EVENT_TO_DNDBEYOND,
+} from "../common.js";
 import { notify } from "../communication.js";
 
 /**
@@ -9,6 +13,10 @@ function listenForIncomingEvents() {
     console.log("injection: received args", args);
     // todo mutate DOM
   });
+}
+
+function getUserUrl() {
+  return window.location.href;
 }
 
 /**
@@ -23,12 +31,10 @@ function injectAbilities() {
     return false;
   }
 
-  console.log("abilities", abilities);
   // create callback with clouje of these values
   const abilityContainers = abilities.getElementsByClassName(
     "ddbc-ability-summary"
   );
-  console.log("abilityContainers", abilityContainers);
   for (const container of abilityContainers) {
     const abilityName = container.getElementsByClassName(
       "ddbc-ability-summary__abbr"
@@ -48,12 +54,11 @@ function injectAbilities() {
     )[0].textContent;
 
     const abilityRoll = {
-      userUrl: window.location.href,
+      userUrl: getUserUrl(),
       ability: abilityName,
     };
     const btn = container.getElementsByTagName("button")[0];
     btn.onclick = () => {
-      console.log("ability", abilityRoll);
       notify(EVENT_FROM_DNDBEYOND, abilityRoll);
     };
   }
@@ -61,7 +66,29 @@ function injectAbilities() {
 }
 
 function injectSkills() {
-  // todo
+  const skillsContainer = document.getElementsByClassName("ct-skills__list")[0];
+  if (!skillsContainer) {
+    return false;
+  }
+  console.log("skillsContainer", skillsContainer);
+  const skillContainers =
+    skillsContainer.getElementsByClassName("ct-skills__item");
+  for (const sContainer of skillContainers) {
+    const val = sContainer.getElementsByClassName("ct-skills__col--skill")[0]
+      .textContent;
+
+    const skillRoll = {
+      userUrl: getUserUrl(),
+      skill: val,
+    };
+    const btn = sContainer.getElementsByClassName(
+      "integrated-dice__container"
+    )[0];
+    btn.onclick = () => {
+      console.log("was clicked", val);
+      notify(EVENT_FROM_DNDBEYOND, skillRoll);
+    };
+  }
   return true;
 }
 
