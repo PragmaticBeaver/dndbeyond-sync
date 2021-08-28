@@ -1,6 +1,7 @@
 import { getPCSheetIds } from "./actor.js";
 import { listenForIncomingEvents, notify } from "./communication.js";
 import { isGMInstance } from "./common.js";
+import { CHARACTER_URLS, getFlag, setFlag } from "./data-flags.js";
 
 Hooks.on("init", () => {
   console.log("dndbeyond-sync | initalizing ...");
@@ -91,8 +92,6 @@ function injectPCsheetOptionsBtn(sheetIds) {
 
   for (const id of sheetIds) {
     Hooks.on("render" + id, (app, html, data) => {
-      console.log("render", html);
-
       // custom icon
       const icon = document.createElement("i");
       icon.classList = "fab fa-d-and-d-beyond";
@@ -132,21 +131,20 @@ function injectPCsheetOptionsBtn(sheetIds) {
  */
 
 function openActorConfigDialog() {
-  const container = document.createElement("div");
-
-  const input = document.createElement("input");
-  input.type = "text";
-  input.id = "dndbeyondSync-pc-sync-input";
-  input.placeholder = "D&D Beyond URL ...";
-  container.appendChild(input);
+  const url = getFlag(game.user, CHARACTER_URLS) || "";
 
   /**
-   * todo
-   *  =>> get all PCs
-   *  =>> render PC icon, name, textfield with beyond url (empty if no url set)
+   * HTMLElement.outerHTML does't work for input.value!
+   * => because of this, a string representation is necessary
    */
-
-  const content = container.outerHTML;
+  const content =
+    `
+    <div>
+      <input id="dndbeyondSync-pc-sync-input" type="text" placeholder="D&D Beyond URL ..." value="` +
+    url +
+    `">
+    </div>
+  `;
 
   let d = new Dialog({
     title: "D&D Beyond Sync - Configure PC",
@@ -161,8 +159,7 @@ function openActorConfigDialog() {
             "dndbeyondSync-pc-sync-input"
           ).value;
 
-          console.log("url", url);
-          // todo save url into actor / actorSheet
+          setFlag(game.user, CHARACTER_URLS, url);
         },
       },
     },
