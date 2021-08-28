@@ -6,3 +6,7 @@ export const EVENT_TO_DNDBEYOND = "dndbeyond-sync-to-beyond";
 
 export const EVENT_FROM_FOUNDRY = "dndbeyond-sync-from-foundry";
 export const EVENT_TO_FOUNDRY = "dndbeyond-sync-to-foundry";
+
+export function getUserUrl() {
+  return window.location.href;
+}
