@@ -133,7 +133,12 @@ function injectPCsheetOptionsBtn(sheetIds) {
 
 function openActorConfigDialog() {
   const container = document.createElement("div");
-  container.innerText = "You must choose either Option 1, or Option 2";
+
+  const input = document.createElement("input");
+  input.type = "text";
+  input.id = "dndbeyondSync-pc-sync-input";
+  input.placeholder = "D&D Beyond URL ...";
+  container.appendChild(input);
 
   /**
    * todo
@@ -144,13 +149,21 @@ function openActorConfigDialog() {
   const content = container.outerHTML;
 
   let d = new Dialog({
-    title: "D&D Beyond Sync - Configure PCs",
+    title: "D&D Beyond Sync - Configure PC",
     content,
     buttons: {
       done: {
-        icon: '<i class="fas fa-check"></i>',
+        icon: '<i class="fas fa-save"></i>',
         label: "Done",
-        callback: () => console.log("clicked done"),
+        callback: () => {
+          console.log("clicked done");
+          const url = document.getElementById(
+            "dndbeyondSync-pc-sync-input"
+          ).value;
+
+          console.log("url", url);
+          // todo save url into actor / actorSheet
+        },
       },
     },
     default: "done",
@@ -158,7 +171,6 @@ function openActorConfigDialog() {
       console.log("onRender - Register interactivity in the rendered dialog"),
     close: (html) => {
       console.log("closed dialog");
-      // todo save into actor / actor-sheets (?)
     },
   });
   d.render(true);
