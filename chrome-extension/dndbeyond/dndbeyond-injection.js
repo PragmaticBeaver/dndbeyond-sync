@@ -47,27 +47,29 @@ function injectAbilities() {
       "ddbc-signed-number__sign"
     )[0].textContent;
 
-    // todo convert to ability roll
-    const ability = {
-      name: abilityName,
-      score: abilityScore,
-      mod: abilityModSign + abilityModVal,
+    const abilityRoll = {
+      userUrl: window.location.href,
+      ability: abilityName,
     };
-    console.log("ability", ability);
     const btn = container.getElementsByTagName("button")[0];
     btn.onclick = () => {
-      console.log("i got overridden!");
-      console.log("ability", ability);
-      notify(EVENT_FROM_DNDBEYOND, ability);
+      console.log("ability", abilityRoll);
+      notify(EVENT_FROM_DNDBEYOND, abilityRoll);
     };
   }
   return true;
 }
 
+function injectSkills() {
+  // todo
+  return true;
+}
+
 function tryInject(mutations, observer) {
   const abilitiesSucess = injectAbilities();
+  const skillsSucess = injectSkills();
 
-  if (abilitiesSucess) {
+  if (abilitiesSucess && skillsSucess) {
     observer.disconnect();
   }
 }
