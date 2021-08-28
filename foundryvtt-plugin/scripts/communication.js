@@ -5,6 +5,11 @@ import {
   isGMInstance,
 } from "./common.js";
 import { loadData } from "./persistence.js";
+import {
+  handleAbilityCheck,
+  handleAbilitySave,
+  handleSkillCheck,
+} from "./handle-rolls.js";
 
 /**
  * Dispatches custom DOM event on document using "EVENT_FROM_FOUNDRY" as key.
@@ -30,6 +35,14 @@ export function listenForIncomingEvents() {
       const PCId = game.user.data.character;
 
       // todo handle GM
+      /**
+       * possible handling
+       *  =>  isGM?
+       *  =>  check all urls for current actor;
+       *    =>> no user attached to actor ?
+       *    =>> is DM char
+       *      =>>>  update this actor
+       */
 
       const isCurrentUserPC = actorId === PCId;
       if (!isCurrentUserPC) {
@@ -42,12 +55,20 @@ export function listenForIncomingEvents() {
         console.log("ability-roll", evt.ability);
         // todo roll d20 => CONFIG.Dice.D20Roll
         // todo roll damage => CONFIG.Dice.DamageRoll
+        handleAbilityCheck(evt);
+      }
+
+      if (evt.save) {
+        console.log("ability-save", evt.save);
+        // todo
+        handleAbilitySave(evt);
       }
 
       // skill-roll
       if (evt.skill) {
         console.log("skill-roll", evt.skill);
         // todo
+        handleSkillCheck(evt);
       }
     }
   });

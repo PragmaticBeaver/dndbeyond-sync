@@ -5,6 +5,8 @@ const persistScope = {
   local: "client",
 };
 
+// todo remove entry when character is deleted
+
 /**
  * Prepares data storage via game.settings.
  */
