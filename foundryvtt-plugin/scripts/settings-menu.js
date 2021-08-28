@@ -46,12 +46,6 @@ export function injectSettingsMenu(sheetIds) {
   }
 }
 
-/**
- * todo
- *  => find a way to destinguish events (events are always meant for specific PC / GM)
- *  => idea: save beyond URL (including PC ID) inside Foundry PC sheet
- */
-
 function openActorConfigDialog() {
   const url = getFlag(game.user, CHARACTER_URLS) || "";
 

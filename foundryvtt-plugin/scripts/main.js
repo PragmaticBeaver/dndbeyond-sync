@@ -2,6 +2,11 @@ import { getPCSheetIds } from "./actor.js";
 import { listenForIncomingEvents, notify } from "./communication.js";
 import { injectSettingsMenu } from "./settings-menu.js";
 
+/**
+ * todo
+ *  => find a way to destinguish events (events are always meant for specific PC / GM)
+ */
+
 Hooks.on("init", () => {
   console.log("dndbeyond-sync | initalizing ...");
   // todo check connection to browser-extension, only notify if connected ?
