@@ -32,6 +32,7 @@ export async function registerPersistence() {
  */
 export function loadData(key) {
   const json = game.settings.get(MODULE_NAME, key);
+  console.log("loaded", key, json);
   if (json) {
     return JSON.parse(json);
   }
@@ -44,4 +45,5 @@ export function loadData(key) {
  */
 export function saveData(key, val) {
   game.settings.set(MODULE_NAME, key, JSON.stringify(val));
+  console.log("saved", key, val);
 }

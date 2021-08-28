@@ -13,7 +13,9 @@ export function injectSettingsMenu(sheetIds) {
   }
 
   for (const id of sheetIds) {
-    Hooks.on("render" + id, (_app, html, _data) => {
+    Hooks.on("render" + id, (_app, html, data) => {
+      const actorId = data.actor._id;
+
       // custom icon
       const icon = document.createElement("i");
       icon.classList = "fab fa-d-and-d-beyond";
@@ -23,8 +25,7 @@ export function injectSettingsMenu(sheetIds) {
       btn.classList = "dndbeyondSync-menu-btn";
       btn.appendChild(icon);
       btn.onclick = () => {
-        console.log("configure actor clicked!");
-        openActorConfigDialog();
+        openActorConfigDialog(actorId);
       };
 
       // custom div for flex-row
@@ -46,8 +47,17 @@ export function injectSettingsMenu(sheetIds) {
   }
 }
 
-function openActorConfigDialog() {
-  const url = loadData(CHARACTER_URLS) || "";
+function openActorConfigDialog(actorId) {
+  const urls = loadData(CHARACTER_URLS) || {};
+
+  let url = "";
+  for (const u of Object.keys(urls)) {
+    const aId = urls[u];
+    if (actorId === aId) {
+      url = u;
+      break;
+    }
+  }
 
   /**
    * HTMLElement.outerHTML does't work for input.value!
@@ -63,23 +73,22 @@ function openActorConfigDialog() {
     `;
 
   let d = new Dialog({
-    title: "D&D Beyond Sync - Configure PC",
+    title: "D&D Beyond Sync - Actor settings",
     content,
     buttons: {
       done: {
         icon: '<i class="fas fa-save"></i>',
         label: "Done",
         callback: () => {
-          console.log("clicked done");
-          const url = document.getElementById(
+          const u = document.getElementById(
             "dndbeyondSync-pc-sync-input"
           ).value;
-
-          saveData(CHARACTER_URLS, url); // todo implement multiple chars for one player
+          urls[u] = actorId;
+          saveData(CHARACTER_URLS, urls);
         },
       },
     },
-    default: "done",
+    default: "close",
     render: (html) =>
       console.log("onRender - Register interactivity in the rendered dialog"),
     close: (html) => {

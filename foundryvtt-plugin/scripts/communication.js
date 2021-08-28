@@ -2,8 +2,8 @@ import {
   CHARACTER_URLS,
   EVENT_FROM_FOUNDRY,
   EVENT_TO_FOUNDRY,
+  isGMInstance,
 } from "./common.js";
-
 import { loadData } from "./persistence.js";
 
 /**
@@ -25,17 +25,17 @@ export function listenForIncomingEvents() {
   document.addEventListener(EVENT_TO_FOUNDRY, (...args) => {
     for (const customEvt of args) {
       const evt = customEvt.detail;
+      const urls = loadData(CHARACTER_URLS);
+      const actorId = urls[evt.userUrl];
+      const PCId = game.user.data.character;
 
-      console.log("game.world", game.world);
+      // todo handle GM
 
-      const userUrl = loadData(CHARACTER_URLS);
-      console.log(userUrl);
-      if (evt.userUrl !== userUrl) {
+      const isCurrentUserPC = actorId === PCId;
+      if (!isCurrentUserPC) {
         return;
       }
       console.log("received event", evt);
-
-      // todo handle GM
 
       // ability-roll
       if (evt.ability) {
