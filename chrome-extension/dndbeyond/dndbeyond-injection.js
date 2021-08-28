@@ -1,10 +1,14 @@
-import { EVENT_TO_DNDBEYOND } from "../common.js";
+import {
+  EVENT_TO_DNDBEYOND,
+  EVENT_FROM_DNDBEYOND,
+  getUserUrl,
+} from "../common.js";
+import { notify } from "../communication.js";
 import { injectAbilities, injectAbilitieSaves } from "./inject-abilities.js";
 import { injectSkills } from "./inject-skills.js";
 
 /**
  * todo
- * initiative
  * weapons (hit + damage)
  * spells
  * take DMG / heal
@@ -25,12 +29,42 @@ function listenForIncomingEvents() {
   });
 }
 
+/**
+ * Injects notification callback into initiative button.
+ * @returns boolean - sucess or failure
+ */
+function injectInitiative() {
+  const initContainer = document.getElementsByClassName(
+    "ct-initiative-box__value"
+  )[0];
+  if (!initContainer) {
+    return false;
+  }
+
+  const roll = {
+    userUrl: getUserUrl(),
+    initiative: "initiative",
+  };
+  const btn = initContainer.getElementsByClassName(
+    "integrated-dice__container"
+  )[0];
+  btn.onclick = () => {
+    notify(EVENT_FROM_DNDBEYOND, roll);
+  };
+}
+
 function tryInject(mutations, observer) {
   const abilitiesSucess = injectAbilities();
   const abilitySavesSucess = injectAbilitieSaves();
   const skillsSucess = injectSkills();
+  const initiativeSucess = injectInitiative();
 
-  if (abilitiesSucess && abilitySavesSucess && skillsSucess) {
+  if (
+    abilitiesSucess &&
+    abilitySavesSucess &&
+    skillsSucess &&
+    initiativeSucess
+  ) {
     observer.disconnect();
   }
 }

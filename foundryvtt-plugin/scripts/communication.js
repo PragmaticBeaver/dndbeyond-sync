@@ -67,6 +67,12 @@ export function listenForIncomingEvents() {
         console.log("skill-roll", evt.skill);
         handleSkillCheck(evt);
       }
+
+      // initiative-roll
+      if (evt.initiative) {
+        console.log("initiative", evt.initiative);
+        // todo handle initiative
+      }
     }
   });
 }
