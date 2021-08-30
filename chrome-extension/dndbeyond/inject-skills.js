@@ -3,10 +3,10 @@ import { notify } from "../communication.js";
 
 /**
  * Injects notification callback into skill buttons.
- * @returns boolean - sucess or failure
+ * @returns {void}
  */
-export function injectSkills(_mutations, observer) {
-  const skillsContainer = document.getElementsByClassName("ct-skills__list")[0];
+export function injectSkills(doc) {
+  const skillsContainer = doc.getElementsByClassName("ct-skills__list")[0];
   if (!skillsContainer) {
     return;
   }
@@ -28,5 +28,4 @@ export function injectSkills(_mutations, observer) {
       notify(EVENT_FROM_DNDBEYOND, skillRoll);
     };
   }
-  observer.disconnect();
 }

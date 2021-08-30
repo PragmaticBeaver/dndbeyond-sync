@@ -6,6 +6,7 @@ import {
 import { notify } from "../communication.js";
 import { injectAbilities, injectAbilitySaves } from "./inject-abilities.js";
 import { injectSkills } from "./inject-skills.js";
+import { injectDeathSave } from "./inject-deathSave.js";
 
 /**
  * todo
@@ -33,20 +34,27 @@ function listenForIncomingEvents() {
   });
 }
 
-function inject() {
-  observe(injectAbilities);
-  observe(injectAbilitySaves);
-  observe(injectSkills);
-  observe(injectInitiative);
-  observe(injectDeathSave);
+/**
+ * Injects DOM with callbacks.
+ * @param {*} _mutations
+ * @param {*} _observer
+ */
+function inject(_mutations, _observer) {
+  // todo may be => don't inject multiple times ?
+  const doc = document.documentElement;
+  injectAbilities(doc);
+  injectAbilitySaves(doc);
+  injectSkills(doc);
+  injectInitiative(doc);
+  injectDeathSave(doc);
 }
 
 /**
  * Injects notification callback into initiative button.
- * @returns boolean - sucess or failure
+ * @returns {void}
  */
-function injectInitiative(_mutations, observer) {
-  const initContainer = document.getElementsByClassName(
+function injectInitiative(doc) {
+  const initContainer = doc.getElementsByClassName(
     "ct-initiative-box__value"
   )[0];
   if (!initContainer) {
@@ -63,8 +71,6 @@ function injectInitiative(_mutations, observer) {
   btn.onclick = () => {
     notify(EVENT_FROM_DNDBEYOND, roll);
   };
-
-  observer.disconnect();
 }
 
 /**
@@ -75,36 +81,12 @@ function injectInitiative(_mutations, observer) {
  *    =>> needs to notify beyond about return
  */
 
-/**
- * Injects notification callback into death save buttons.
- * @returns boolean - sucess or failure
- */
-function injectDeathSave(_mutations, _observer) {
-  const deathSaveContainer = document.getElementsByClassName(
-    "ct-health-manager__deathsaves"
-  )[0];
-  if (!deathSaveContainer) {
-    return;
-  }
+const observer = new window.MutationObserver(inject);
+observer.observe(document, {
+  subtree: true,
+  childList: true,
+  characterData: true,
+  subtree: true,
+});
 
-  console.log("deathSaveContainer", deathSaveContainer);
-
-  // todo
-  // not needed because
-  // the container needs to be injected with a button
-  // each time it is rendered?
-  // observer.disconnect();
-}
-
-function observe(cb) {
-  const observer = new window.MutationObserver(cb);
-  observer.observe(document, {
-    subtree: true,
-    childList: true,
-    characterData: true,
-    subtree: true,
-  });
-}
-
-inject();
 listenForIncomingEvents();

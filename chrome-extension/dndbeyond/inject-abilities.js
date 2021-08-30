@@ -5,10 +5,8 @@ import { notify } from "../communication.js";
  * Injects notification callback into ability buttons.
  * @returns {void}
  */
-export function injectAbilities(_mutations, observer) {
-  const abilities = document.getElementsByClassName(
-    "ct-quick-info__abilities"
-  )[0];
+export function injectAbilities(doc) {
+  const abilities = doc.getElementsByClassName("ct-quick-info__abilities")[0];
   if (!abilities) {
     return;
   }
@@ -43,15 +41,14 @@ export function injectAbilities(_mutations, observer) {
       notify(EVENT_FROM_DNDBEYOND, abilityRoll);
     };
   }
-  observer.disconnect();
 }
 
 /**
  * Injects notification callback into ability-save buttons.
  * @returns {void}
  */
-export function injectAbilitySaves(_mutations, observer) {
-  const savesContainer = document.getElementsByClassName(
+export function injectAbilitySaves(doc) {
+  const savesContainer = doc.getElementsByClassName(
     "ddbc-saving-throws-summary"
   )[0];
   if (!savesContainer) {
@@ -71,5 +68,4 @@ export function injectAbilitySaves(_mutations, observer) {
       notify(EVENT_FROM_DNDBEYOND, saveRoll);
     };
   }
-  observer.disconnect();
 }
