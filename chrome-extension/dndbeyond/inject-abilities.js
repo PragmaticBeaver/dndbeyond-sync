@@ -3,14 +3,14 @@ import { notify } from "../communication.js";
 
 /**
  * Injects notification callback into ability buttons.
- * @returns boolean - sucess or failure
+ * @returns {void}
  */
-export function injectAbilities() {
+export function injectAbilities(_mutations, observer) {
   const abilities = document.getElementsByClassName(
     "ct-quick-info__abilities"
   )[0];
   if (!abilities) {
-    return false;
+    return;
   }
 
   const abilityContainers = abilities.getElementsByClassName(
@@ -43,19 +43,19 @@ export function injectAbilities() {
       notify(EVENT_FROM_DNDBEYOND, abilityRoll);
     };
   }
-  return true;
+  observer.disconnect();
 }
 
 /**
  * Injects notification callback into ability-save buttons.
- * @returns boolean - sucess or failure
+ * @returns {void}
  */
-export function injectAbilitieSaves() {
+export function injectAbilitySaves(_mutations, observer) {
   const savesContainer = document.getElementsByClassName(
     "ddbc-saving-throws-summary"
   )[0];
   if (!savesContainer) {
-    return false;
+    return;
   }
 
   for (const e of savesContainer.children) {
@@ -71,5 +71,5 @@ export function injectAbilitieSaves() {
       notify(EVENT_FROM_DNDBEYOND, saveRoll);
     };
   }
-  return true;
+  observer.disconnect();
 }

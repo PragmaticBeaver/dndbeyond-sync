@@ -9,6 +9,7 @@ import {
   handleAbilityCheck,
   handleAbilitySave,
   handleSkillCheck,
+  handleInitiativeRoll,
 } from "./handle-rolls.js";
 
 /**
@@ -71,7 +72,7 @@ export function listenForIncomingEvents() {
       // initiative-roll
       if (evt.initiative) {
         console.log("initiative", evt.initiative);
-        // todo handle initiative
+        handleInitiativeRoll(evt);
       }
     }
   });

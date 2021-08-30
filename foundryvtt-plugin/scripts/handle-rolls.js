@@ -74,3 +74,8 @@ export function handleSkillCheck(evt) {
   const actor = getActorOfCurrentUser();
   actor.rollSkill(skill);
 }
+
+export async function handleInitiativeRoll(_evt) {
+  const actor = getActorOfCurrentUser();
+  actor.rollInitiative();
+}

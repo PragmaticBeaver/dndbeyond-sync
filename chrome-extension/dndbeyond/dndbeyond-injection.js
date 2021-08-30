@@ -4,14 +4,18 @@ import {
   getUserUrl,
 } from "../common.js";
 import { notify } from "../communication.js";
-import { injectAbilities, injectAbilitieSaves } from "./inject-abilities.js";
+import { injectAbilities, injectAbilitySaves } from "./inject-abilities.js";
 import { injectSkills } from "./inject-skills.js";
 
 /**
  * todo
+ * death save => actor.rollDeathSave
+ * hit die => actor.rollHitDie
+ * long rest => actor.longRest
+ * short rest => actor.shortRest
  * weapons (hit + damage)
  * spells
- * take DMG / heal
+ * take DMG / heal => actor.applyDamage
  * inspiration
  * passive stats
  * feat / trait (post into foundry)
@@ -29,16 +33,24 @@ function listenForIncomingEvents() {
   });
 }
 
+function inject() {
+  observe(injectAbilities);
+  observe(injectAbilitySaves);
+  observe(injectSkills);
+  observe(injectInitiative);
+  observe(injectDeathSave);
+}
+
 /**
  * Injects notification callback into initiative button.
  * @returns boolean - sucess or failure
  */
-function injectInitiative() {
+function injectInitiative(_mutations, observer) {
   const initContainer = document.getElementsByClassName(
     "ct-initiative-box__value"
   )[0];
   if (!initContainer) {
-    return false;
+    return;
   }
 
   const roll = {
@@ -51,31 +63,48 @@ function injectInitiative() {
   btn.onclick = () => {
     notify(EVENT_FROM_DNDBEYOND, roll);
   };
+
+  observer.disconnect();
 }
 
-function tryInject(mutations, observer) {
-  const abilitiesSucess = injectAbilities();
-  const abilitySavesSucess = injectAbilitieSaves();
-  const skillsSucess = injectSkills();
-  const initiativeSucess = injectInitiative();
+/**
+ * todo deathSave-container will only be rendered when PC loses all of his/her HP.
+ * how to handle?
+ *  => can't find "roll death save"-button
+ *  => may need to inject own button for "death save roll" which will ask foundry to make a roll
+ *    =>> needs to notify beyond about return
+ */
 
-  if (
-    abilitiesSucess &&
-    abilitySavesSucess &&
-    skillsSucess &&
-    initiativeSucess
-  ) {
-    observer.disconnect();
+/**
+ * Injects notification callback into death save buttons.
+ * @returns boolean - sucess or failure
+ */
+function injectDeathSave(_mutations, _observer) {
+  const deathSaveContainer = document.getElementsByClassName(
+    "ct-health-manager__deathsaves"
+  )[0];
+  if (!deathSaveContainer) {
+    return;
   }
+
+  console.log("deathSaveContainer", deathSaveContainer);
+
+  // todo
+  // not needed because
+  // the container needs to be injected with a button
+  // each time it is rendered?
+  // observer.disconnect();
 }
 
-// observe document for DOM changes
-const observer = new window.MutationObserver(tryInject);
-observer.observe(document, {
-  subtree: true,
-  childList: true,
-  characterData: true,
-  subtree: true,
-});
+function observe(cb) {
+  const observer = new window.MutationObserver(cb);
+  observer.observe(document, {
+    subtree: true,
+    childList: true,
+    characterData: true,
+    subtree: true,
+  });
+}
 
+inject();
 listenForIncomingEvents();
