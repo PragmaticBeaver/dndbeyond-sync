@@ -8,7 +8,7 @@
   "web_accessible_resources": [
     {
       "resources": ["dndbeyond-injection.js"],
-      "matches": ["<all_urls>"]
+      "matches": ["*://*.dndbeyond.com/*"]
     }
   ],
   "background": {
