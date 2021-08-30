@@ -13,9 +13,9 @@ export function getUserUrl() {
 
 /**
  * Create new Roll object.
- * @param {*} type roll type; for ecample 'ability'
- * @param {*} value roll value; for example 'str'
- * @param {*} userUrl (optional) user url from D&D Beyond
+ * @param {string} type roll type; for ecample 'ability'
+ * @param {any} value roll value; for example 'str'
+ * @param {string} userUrl (optional) user url from D&D Beyond
  * @returns {Roll}
  */
 export function createRoll(type, value, userUrl = getUserUrl()) {

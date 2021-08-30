@@ -34,6 +34,7 @@ function listenForIncomingEvents() {
         handleDeathSaveUpdate(deathStatus);
       }
 
+      // HP (also part of death-save, because crit-success = 1 HP!)
       // todo mutate DOM
     }
   });

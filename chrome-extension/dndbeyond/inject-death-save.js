@@ -138,4 +138,59 @@ export function injectDeathSave(doc) {
   btnContainer.appendChild(btn);
 
   heading.appendChild(btnContainer);
+
+  injectFoundryNotification(doc);
+}
+
+function injectFoundryNotification(doc) {
+  const container = doc.getElementsByClassName(
+    "ct-health-manager__deathsaves-groups"
+  )[0];
+
+  // failure
+  const failureGroup = container.getElementsByClassName(
+    "ct-health-manager__deathsaves-group ct-health-manager__deathsaves-group--fails"
+  )[0];
+  const failureMarks = failureGroup.getElementsByClassName(
+    "ct-health-manager__deathsaves-marks"
+  )[0];
+  injectFoundryNotificationInGroup(failureMarks, false);
+
+  // success
+  const successGroup = container.getElementsByClassName(
+    "ct-health-manager__deathsaves-group ct-health-manager__deathsaves-group--successes"
+  )[0];
+  const successMarks = successGroup.getElementsByClassName(
+    "ct-health-manager__deathsaves-marks"
+  )[0];
+  injectFoundryNotificationInGroup(successMarks, true);
+}
+
+function injectFoundryNotificationInGroup(container, isSuccessGroup) {
+  container.onclick = () => {
+    setTimeout(() => {
+      const marks = container.children;
+
+      let active = 3;
+      for (const m of marks) {
+        const isInactive = m.classList.contains(
+          "ct-health-manager__deathsaves-mark--inactive"
+        );
+        if (!isInactive) {
+          continue;
+        }
+        active -= 1;
+      }
+
+      const status = {};
+      if (isSuccessGroup) {
+        status.success = active;
+      } else {
+        status.fail = active;
+      }
+
+      const roll = createRoll("death-save", status);
+      notify(EVENT_FROM_DNDBEYOND, roll);
+    }, 100);
+  };
 }
