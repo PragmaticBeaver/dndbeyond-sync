@@ -1,3 +1,6 @@
+import { EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
+import { notify } from "../communication.js";
+
 /**
  * Injects button into death-save page of D&D Beyond.
  * @returns {void}
@@ -117,9 +120,14 @@ export function injectDeathSave(doc) {
   btn.style =
     "border-radius: 10px; background-color: black; margin-left: 5px; align-self: center; border: none; padding: 3px;";
   btn.appendChild(iconContainer);
+
+  const roll = {
+    userUrl: getUserUrl(),
+    deathSave: "deathSave",
+  };
   btn.onclick = () => {
     console.log("was clicked");
-    // todo
+    notify(EVENT_FROM_DNDBEYOND, roll); // todo refactor rolls to => {userUrl: string, type: string, value: string}
   };
 
   // button text
