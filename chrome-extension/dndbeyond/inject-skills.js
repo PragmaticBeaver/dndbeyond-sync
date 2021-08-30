@@ -1,4 +1,4 @@
-import { EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
+import { createRoll, EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
 import { notify } from "../communication.js";
 
 /**
@@ -17,15 +17,12 @@ export function injectSkills(doc) {
     const val = sContainer.getElementsByClassName("ct-skills__col--skill")[0]
       .textContent;
 
-    const skillRoll = {
-      userUrl: getUserUrl(),
-      skill: val,
-    };
+    const roll = createRoll("skill", val);
     const btn = sContainer.getElementsByClassName(
       "integrated-dice__container"
     )[0];
     btn.onclick = () => {
-      notify(EVENT_FROM_DNDBEYOND, skillRoll);
+      notify(EVENT_FROM_DNDBEYOND, roll);
     };
   }
 }

@@ -1,4 +1,4 @@
-import { EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
+import { createRoll, EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
 import { notify } from "../communication.js";
 
 /**
@@ -32,13 +32,10 @@ export function injectAbilities(doc) {
       "ddbc-signed-number__sign"
     )[0].textContent;
 
-    const abilityRoll = {
-      userUrl: getUserUrl(),
-      ability: abilityName,
-    };
+    const roll = createRoll("ability", abilityName);
     const btn = container.getElementsByTagName("button")[0];
     btn.onclick = () => {
-      notify(EVENT_FROM_DNDBEYOND, abilityRoll);
+      notify(EVENT_FROM_DNDBEYOND, roll);
     };
   }
 }
@@ -59,13 +56,10 @@ export function injectAbilitySaves(doc) {
     const val = e.getElementsByClassName(
       "ddbc-saving-throws-summary__ability-name "
     )[0].textContent;
-    const saveRoll = {
-      userUrl: getUserUrl(),
-      save: val,
-    };
+    const roll = createRoll("ability-save", val);
     const btn = e.getElementsByClassName("integrated-dice__container")[0];
     btn.onclick = () => {
-      notify(EVENT_FROM_DNDBEYOND, saveRoll);
+      notify(EVENT_FROM_DNDBEYOND, roll);
     };
   }
 }

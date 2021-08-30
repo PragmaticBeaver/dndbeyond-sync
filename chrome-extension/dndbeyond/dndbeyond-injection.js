@@ -1,12 +1,8 @@
-import {
-  EVENT_TO_DNDBEYOND,
-  EVENT_FROM_DNDBEYOND,
-  getUserUrl,
-} from "../common.js";
-import { notify } from "../communication.js";
+import { EVENT_TO_DNDBEYOND } from "../common.js";
 import { injectAbilities, injectAbilitySaves } from "./inject-abilities.js";
 import { injectSkills } from "./inject-skills.js";
 import { injectDeathSave } from "./inject-deathSave.js";
+import { injectInitiative } from "./inject-initiative.js";
 
 /**
  * todo
@@ -47,30 +43,6 @@ function inject(_mutations, _observer) {
   injectSkills(doc);
   injectInitiative(doc);
   injectDeathSave(doc);
-}
-
-/**
- * Injects notification callback into initiative button.
- * @returns {void}
- */
-function injectInitiative(doc) {
-  const initContainer = doc.getElementsByClassName(
-    "ct-initiative-box__value"
-  )[0];
-  if (!initContainer) {
-    return;
-  }
-
-  const roll = {
-    userUrl: getUserUrl(),
-    initiative: "initiative",
-  };
-  const btn = initContainer.getElementsByClassName(
-    "integrated-dice__container"
-  )[0];
-  btn.onclick = () => {
-    notify(EVENT_FROM_DNDBEYOND, roll);
-  };
 }
 
 /**

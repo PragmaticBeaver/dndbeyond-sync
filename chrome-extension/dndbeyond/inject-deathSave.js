@@ -1,4 +1,4 @@
-import { EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
+import { createRoll, EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
 import { notify } from "../communication.js";
 
 /**
@@ -121,13 +121,9 @@ export function injectDeathSave(doc) {
     "border-radius: 10px; background-color: black; margin-left: 5px; align-self: center; border: none; padding: 3px;";
   btn.appendChild(iconContainer);
 
-  const roll = {
-    userUrl: getUserUrl(),
-    deathSave: "deathSave",
-  };
+  const roll = createRoll("death-save", "");
   btn.onclick = () => {
-    console.log("was clicked");
-    notify(EVENT_FROM_DNDBEYOND, roll); // todo refactor rolls to => {userUrl: string, type: string, value: string}
+    notify(EVENT_FROM_DNDBEYOND, roll);
   };
 
   // button text

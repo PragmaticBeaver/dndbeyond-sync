@@ -51,28 +51,22 @@ export function listenForIncomingEvents() {
       }
       console.log("received event", evt);
 
-      // ability-roll
-      if (evt.ability) {
-        console.log("ability-roll", evt.ability);
-        handleAbilityCheck(evt);
-      }
-
-      // ability-save
-      if (evt.save) {
-        console.log("ability-save", evt.save);
-        handleAbilitySave(evt);
-      }
-
-      // skill-roll
-      if (evt.skill) {
-        console.log("skill-roll", evt.skill);
-        handleSkillCheck(evt);
-      }
-
-      // initiative-roll
-      if (evt.initiative) {
-        console.log("initiative", evt.initiative);
-        handleInitiativeRoll(evt);
+      switch (evt.type) {
+        case "ability":
+          handleAbilityCheck(evt.value);
+          break;
+        case "ability-save":
+          handleAbilitySave(evt.value);
+          break;
+        case "skill":
+          handleSkillCheck(evt.value);
+          break;
+        case "initiative":
+          handleInitiativeRoll();
+          break;
+        case "death-save":
+          // handleDeathSave();
+          break;
       }
     }
   });

@@ -10,3 +10,22 @@ export const EVENT_TO_FOUNDRY = "dndbeyond-sync-to-foundry";
 export function getUserUrl() {
   return window.location.href;
 }
+
+/**
+ * Create new Roll object.
+ * @param {*} type roll type; for ecample 'ability'
+ * @param {*} value roll value; for example 'str'
+ * @param {*} userUrl (optional) user url from D&D Beyond
+ * @returns {Roll}
+ */
+export function createRoll(type, value, userUrl = getUserUrl()) {
+  return new Roll(userUrl, type, value);
+}
+
+class Roll {
+  constructor(userUrl, type, value) {
+    this.userUrl = userUrl;
+    this.type = type;
+    this.value = value;
+  }
+}
