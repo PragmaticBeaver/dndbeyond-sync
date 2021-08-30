@@ -31,7 +31,7 @@ const port = connectContentScript(DNDBEYOND_PORT_ID);
  */
 function listenForDOMEvents() {
   document.addEventListener(EVENT_FROM_DNDBEYOND, (args) => {
-    console.log("content: received args", args);
+    // console.log("content: received args", args);
     notifyBackgroundScript(port, args.detail);
   });
 }
@@ -41,7 +41,7 @@ function listenForDOMEvents() {
  */
 function listenForIncomingEvents() {
   port.onMessage.addListener((msg) => {
-    console.log("content: msg from background.js", msg);
+    // console.log("content: msg from background.js", msg);
     notify(EVENT_TO_DNDBEYOND, msg);
   });
 }

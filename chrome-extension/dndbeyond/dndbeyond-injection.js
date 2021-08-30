@@ -1,8 +1,9 @@
 import { EVENT_TO_DNDBEYOND } from "../common.js";
 import { injectAbilities, injectAbilitySaves } from "./inject-abilities.js";
 import { injectSkills } from "./inject-skills.js";
-import { injectDeathSave } from "./inject-deathSave.js";
+import { injectDeathSave } from "./inject-death-save.js";
 import { injectInitiative } from "./inject-initiative.js";
+import { handleDeathSaveUpdate } from "./update-death-save.js";
 
 /**
  * todo
@@ -26,7 +27,15 @@ import { injectInitiative } from "./inject-initiative.js";
 function listenForIncomingEvents() {
   document.addEventListener(EVENT_TO_DNDBEYOND, (...args) => {
     console.log("injection: received args", args);
-    // todo mutate DOM
+    for (const evt of args) {
+      // death-save
+      const deathStatus = evt.detail?.change?.data?.attributes?.death;
+      if (deathStatus) {
+        handleDeathSaveUpdate(deathStatus);
+      }
+
+      // todo mutate DOM
+    }
   });
 }
 

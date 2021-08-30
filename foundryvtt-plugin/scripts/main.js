@@ -26,9 +26,6 @@ Hooks.on("ready", () => {
 
 // gets called when ???
 Hooks.on("updateActor", (actor, change, options, userId) => {
-  console.log("actor-update from: " + userId);
-  console.log(actor, change, options, userId);
-
   const currentUserId = game.userId;
   if (currentUserId !== userId) {
     return;
@@ -65,9 +62,6 @@ Hooks.on("dropActorSheetData", (actor, actorSheet, data) => {
 
 // todo (are items, spells, and so on?)
 Hooks.on("updateDocument", (document, change, options, userId) => {
-  console.log("document-update from: " + userId);
-  console.log(document, change, options, userId);
-
   const currentUserId = game.userId;
   if (currentUserId !== userId) {
     return;
@@ -81,8 +75,4 @@ Hooks.on("updateDocument", (document, change, options, userId) => {
 Hooks.on("updateCompendium", (pack, change, options, userId) => {
   console.log("compendium-update from: " + userId);
   console.log(pack, change, options, userId);
-});
-
-Hooks.on("renderDocument", (...args) => {
-  console.log("renderDocument", args);
 });

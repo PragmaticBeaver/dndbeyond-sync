@@ -10,6 +10,7 @@ import {
   handleAbilitySave,
   handleSkillCheck,
   handleInitiativeRoll,
+  handleDeathSave,
 } from "./handle-rolls.js";
 
 /**
@@ -20,7 +21,7 @@ export function notify(blob) {
   const syncEvent = new CustomEvent(EVENT_FROM_FOUNDRY, {
     detail: blob,
   });
-  console.log("notify", EVENT_FROM_FOUNDRY, blob);
+  // console.log("notify", EVENT_FROM_FOUNDRY, blob);
   document.dispatchEvent(syncEvent);
 }
 
@@ -49,7 +50,7 @@ export function listenForIncomingEvents() {
       if (!isCurrentUserPC) {
         return;
       }
-      console.log("received event", evt);
+      // console.log("received event", evt);
 
       switch (evt.type) {
         case "ability":
@@ -65,7 +66,7 @@ export function listenForIncomingEvents() {
           handleInitiativeRoll();
           break;
         case "death-save":
-          // handleDeathSave();
+          handleDeathSave();
           break;
       }
     }

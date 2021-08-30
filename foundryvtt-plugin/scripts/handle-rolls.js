@@ -79,3 +79,8 @@ export function handleInitiativeRoll() {
   const actor = getActorOfCurrentUser();
   actor.rollInitiative();
 }
+
+export function handleDeathSave() {
+  const actor = getActorOfCurrentUser();
+  actor.rollDeathSave();
+}
