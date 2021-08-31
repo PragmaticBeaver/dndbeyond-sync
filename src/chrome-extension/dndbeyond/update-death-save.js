@@ -2,7 +2,12 @@ export function handleDeathSaveUpdate(deathStatus) {
   const hpManagement = document.getElementsByClassName("ct-health-manager")[0];
   if (!hpManagement) {
     const savesMenu = document.getElementsByClassName("ct-health-summary")[0];
-    savesMenu.click();
+    if (savesMenu) {
+      savesMenu.click();
+    } else {
+      console.warn("can't find HP Management");
+      return;
+    }
   }
 
   if (deathStatus.failure !== undefined) {
