@@ -3,6 +3,7 @@ import { notify } from "../communication.js";
 import {
   UPDATE_FROM_BEYOND_DEATH_SAVE,
   createSyncEvent,
+  ROLL_DEATH_SAVE,
 } from "../../global.js";
 
 /**
@@ -125,7 +126,7 @@ export function injectDeathSave(doc) {
     "border-radius: 10px; background-color: black; margin-left: 5px; align-self: center; border: none; padding: 3px;";
   btn.appendChild(iconContainer);
 
-  const roll = createSyncEvent("death-save", "", getUserUrl());
+  const roll = createSyncEvent(ROLL_DEATH_SAVE, "", getUserUrl());
   btn.onclick = () => {
     notify(EVENT_FROM_DNDBEYOND, roll);
   };

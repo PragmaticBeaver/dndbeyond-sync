@@ -1,4 +1,5 @@
 export function handleDeathSaveUpdate(deathStatus) {
+  console.log("handleDeathSaveUpdate", deathStatus);
   if (deathStatus.failure) {
     const failureContainer = document.getElementsByClassName(
       "ct-health-manager__deathsaves-group ct-health-manager__deathsaves-group--fails"
@@ -14,6 +15,7 @@ export function handleDeathSaveUpdate(deathStatus) {
   }
 }
 
+// todo bug: cant remove death-save
 function updateBeyond(deathSaveContainer, count) {
   const inactiveMarks = deathSaveContainer.getElementsByClassName(
     "ct-health-manager__deathsaves-mark ct-health-manager__deathsaves-mark--inactive"

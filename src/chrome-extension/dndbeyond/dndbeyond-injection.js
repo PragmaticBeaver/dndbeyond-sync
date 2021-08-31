@@ -4,6 +4,7 @@ import { injectSkills } from "./inject-skills.js";
 import { injectDeathSave } from "./inject-death-save.js";
 import { injectInitiative } from "./inject-initiative.js";
 import { handleDeathSaveUpdate } from "./update-death-save.js";
+import { UPDATE_FROM_FOUNDRY_DEATH_SAVE } from "../../global.js";
 
 /**
  * todo
@@ -26,18 +27,18 @@ import { handleDeathSaveUpdate } from "./update-death-save.js";
  */
 function listenForIncomingEvents() {
   // todo create event type for updates
-  document.addEventListener(EVENT_TO_DNDBEYOND, (...args) => {
-    console.log("injection: received args", args);
-    for (const evt of args) {
-      // death-save
-      const deathStatus = evt.detail?.change?.data?.attributes?.death;
-      if (deathStatus) {
-        handleDeathSaveUpdate(deathStatus);
-      }
+  document.addEventListener(EVENT_TO_DNDBEYOND, (args) => {
+    const evt = args.detail;
+    console.log("event", evt);
 
-      // HP (also part of death-save, because crit-success = 1 HP!)
-      // todo mutate DOM
+    switch (evt.type) {
+      case UPDATE_FROM_FOUNDRY_DEATH_SAVE:
+        handleDeathSaveUpdate(evt.value);
+        break;
     }
+
+    // HP (also part of death-save, because crit-success = 1 HP!)
+    // todo mutate DOM
   });
 }
 

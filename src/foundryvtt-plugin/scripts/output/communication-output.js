@@ -1,6 +1,6 @@
 import { EVENT_FROM_FOUNDRY, getUserUrl } from "../common.js";
 import {
-  UPDATE_FROM_BEYOND_DEATH_SAVE,
+  UPDATE_FROM_FOUNDRY_DEATH_SAVE,
   createSyncEvent,
 } from "../../../global.js";
 
@@ -23,7 +23,7 @@ export function handleActorUpdate(change) {
   if (deathSave) {
     console.log("isDeathSave", deathSave); // todo get userUrl
     const evt = createSyncEvent(
-      UPDATE_FROM_BEYOND_DEATH_SAVE,
+      UPDATE_FROM_FOUNDRY_DEATH_SAVE,
       deathSave,
       userUrl
     );
