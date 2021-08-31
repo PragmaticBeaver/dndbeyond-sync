@@ -1,7 +1,6 @@
 /**
  * todo
  * bug: when HP container in Beyond is NOT OPEN, update will fail!
- * bug: FoundryVTT => set death-save value to 3 (error in beyond)
  */
 
 export function handleDeathSaveUpdate(deathStatus) {
@@ -33,8 +32,9 @@ function updateBeyond(deathSaveContainer, count) {
   const gainedValue = currentlyMarked < count;
   if (gainedValue) {
     const clickCount = count - currentlyMarked;
+    const marks = Array.from(inactiveMarks);
     for (let i = 0; i < clickCount; i++) {
-      const mark = inactiveMarks[i];
+      const mark = marks.pop();
       mark.click();
     }
   }
