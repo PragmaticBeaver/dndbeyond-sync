@@ -1,6 +1,10 @@
-import { createRoll, EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
+import { EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
 import { notify } from "../communication.js";
-import { ROLL_ABILITY, ROLL_ABILITY_SAVE } from "../../global.js";
+import {
+  ROLL_ABILITY,
+  ROLL_ABILITY_SAVE,
+  createSyncEvent,
+} from "../../global.js";
 
 /**
  * Injects notification callback into ability buttons.
@@ -33,7 +37,7 @@ export function injectAbilities(doc) {
       "ddbc-signed-number__sign"
     )[0].textContent;
 
-    const roll = createRoll(ROLL_ABILITY, abilityName);
+    const roll = createSyncEvent(ROLL_ABILITY, abilityName, getUserUrl());
     const btn = container.getElementsByTagName("button")[0];
     btn.onclick = () => {
       notify(EVENT_FROM_DNDBEYOND, roll);
@@ -57,7 +61,7 @@ export function injectAbilitySaves(doc) {
     const val = e.getElementsByClassName(
       "ddbc-saving-throws-summary__ability-name "
     )[0].textContent;
-    const roll = createRoll(ROLL_ABILITY_SAVE, val);
+    const roll = createSyncEvent(ROLL_ABILITY_SAVE, val, getUserUrl());
     const btn = e.getElementsByClassName("integrated-dice__container")[0];
     btn.onclick = () => {
       notify(EVENT_FROM_DNDBEYOND, roll);

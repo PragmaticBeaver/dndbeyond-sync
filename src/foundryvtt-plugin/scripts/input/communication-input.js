@@ -1,10 +1,5 @@
-import {
-  CHARACTER_URLS,
-  EVENT_FROM_FOUNDRY,
-  EVENT_TO_FOUNDRY,
-  isGMInstance,
-} from "./common.js";
-import { loadData } from "./persistence.js";
+import { CHARACTER_URLS, EVENT_TO_FOUNDRY } from "../common.js";
+import { loadData } from "../persistence.js";
 import {
   handleAbilityCheck,
   handleAbilitySave,
@@ -19,19 +14,9 @@ import {
   ROLL_INITIATIVE,
   ROLL_SKILL,
   UPDATE_FROM_BEYOND_DEATH_SAVE,
-} from "../../global.js";
-
-/**
- * Dispatches custom DOM event on document using "EVENT_FROM_FOUNDRY" as key.
- * @param {*} blob message data
- */
-export function notify(blob) {
-  const syncEvent = new CustomEvent(EVENT_FROM_FOUNDRY, {
-    detail: blob,
-  });
-  // console.log("notify", EVENT_FROM_FOUNDRY, blob);
-  document.dispatchEvent(syncEvent);
-}
+} from "../../../global.js";
+import { updateDeathSave } from "../update.js";
+import { getActor } from "../actor.js";
 
 /**
  * Listens for messages from dndbeyond-sync extension ("dndbeyond-sync-to-foundry" DOM events).
@@ -60,35 +45,26 @@ export function listenForIncomingEvents() {
         return;
       }
       // console.log("received event", evt);
-
-      console.log(
-        "evts",
-        ROLL_ABILITY,
-        ROLL_ABILITY_SAVE,
-        ROLL_DEATH_SAVE,
-        ROLL_INITIATIVE,
-        ROLL_SKILL
-      );
+      const actor = getActor(actorId);
 
       switch (evt.type) {
         case ROLL_ABILITY:
-          handleAbilityCheck(evt.value);
+          handleAbilityCheck(actor, evt.value);
           break;
         case ROLL_ABILITY_SAVE:
-          handleAbilitySave(evt.value);
+          handleAbilitySave(actor, evt.value);
           break;
         case ROLL_SKILL:
-          handleSkillCheck(evt.value);
+          handleSkillCheck(actor, evt.value);
           break;
         case ROLL_INITIATIVE:
-          handleInitiativeRoll();
+          handleInitiativeRoll(actor);
           break;
         case ROLL_DEATH_SAVE:
-          handleDeathSave();
+          handleDeathSave(actor);
           break;
         case UPDATE_FROM_BEYOND_DEATH_SAVE:
-          // updateDeathSave(evt.value);
-          console.log("updateDeathSave", evt);
+          updateDeathSave(actor, evt.value);
           break;
       }
     }

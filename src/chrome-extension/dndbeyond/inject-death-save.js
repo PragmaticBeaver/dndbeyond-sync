@@ -1,6 +1,9 @@
-import { createRoll, EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
+import { EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
 import { notify } from "../communication.js";
-import { UPDATE_FROM_BEYOND_DEATH_SAVE } from "../../global.js";
+import {
+  UPDATE_FROM_BEYOND_DEATH_SAVE,
+  createSyncEvent,
+} from "../../global.js";
 
 /**
  * Injects button into death-save page of D&D Beyond.
@@ -122,7 +125,7 @@ export function injectDeathSave(doc) {
     "border-radius: 10px; background-color: black; margin-left: 5px; align-self: center; border: none; padding: 3px;";
   btn.appendChild(iconContainer);
 
-  const roll = createRoll("death-save", "");
+  const roll = createSyncEvent("death-save", "", getUserUrl());
   btn.onclick = () => {
     notify(EVENT_FROM_DNDBEYOND, roll);
   };
@@ -187,10 +190,14 @@ function injectFoundryNotificationInGroup(container, isSuccessGroup) {
       if (isSuccessGroup) {
         status.success = active;
       } else {
-        status.fail = active;
+        status.failure = active;
       }
 
-      const roll = createRoll(UPDATE_FROM_BEYOND_DEATH_SAVE, status);
+      const roll = createSyncEvent(
+        UPDATE_FROM_BEYOND_DEATH_SAVE,
+        status,
+        getUserUrl()
+      );
       notify(EVENT_FROM_DNDBEYOND, roll);
     }, 100);
   };

@@ -1,5 +1,5 @@
-import { ROLL_SKILL } from "../../global.js";
-import { createRoll, EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
+import { ROLL_SKILL, createSyncEvent } from "../../global.js";
+import { EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
 import { notify } from "../communication.js";
 
 /**
@@ -18,7 +18,7 @@ export function injectSkills(doc) {
     const val = sContainer.getElementsByClassName("ct-skills__col--skill")[0]
       .textContent;
 
-    const roll = createRoll(ROLL_SKILL, val);
+    const roll = createSyncEvent(ROLL_SKILL, val, getUserUrl());
     const btn = sContainer.getElementsByClassName(
       "integrated-dice__container"
     )[0];

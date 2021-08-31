@@ -1,4 +1,4 @@
-import { CHARACTER_URLS, isGMInstance } from "./common.js";
+import { CHARACTER_URLS, getUserUrl, isGMInstance } from "./common.js";
 import { loadData, saveData } from "./persistence.js";
 
 /**
@@ -49,15 +49,7 @@ export function injectSettingsMenu(sheetIds) {
 
 function openActorConfigDialog(actorId) {
   const urls = loadData(CHARACTER_URLS) || {};
-
-  let url = "";
-  for (const u of Object.keys(urls)) {
-    const aId = urls[u];
-    if (actorId === aId) {
-      url = u;
-      break;
-    }
-  }
+  const url = getUserUrl(actorId);
 
   /**
    * HTMLElement.outerHTML does't work for input.value!

@@ -1,16 +1,12 @@
-import { getActorOfCurrentUser } from "./actor.js";
-
-export function handleAbilityCheck(val) {
-  const actor = getActorOfCurrentUser();
+export function handleAbilityCheck(actor, val) {
   actor.rollAbilityTest(val);
 }
 
-export function handleAbilitySave(val) {
-  const actor = getActorOfCurrentUser();
+export function handleAbilitySave(actor, val) {
   actor.rollAbilitySave(val);
 }
 
-export function handleSkillCheck(val) {
+export function handleSkillCheck(actor, val) {
   const skillLong = val.toLowerCase().replace(/\s/g, "");
 
   let skill = "";
@@ -71,16 +67,13 @@ export function handleSkillCheck(val) {
       break;
   }
 
-  const actor = getActorOfCurrentUser();
   actor.rollSkill(skill);
 }
 
-export function handleInitiativeRoll() {
-  const actor = getActorOfCurrentUser();
+export function handleInitiativeRoll(actor) {
   actor.rollInitiative();
 }
 
-export function handleDeathSave() {
-  const actor = getActorOfCurrentUser();
+export function handleDeathSave(actor) {
   actor.rollDeathSave();
 }

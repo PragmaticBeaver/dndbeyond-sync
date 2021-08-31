@@ -1,5 +1,6 @@
 import { getPCSheetIds } from "./actor.js";
-import { listenForIncomingEvents, notify } from "./communication.js";
+import { listenForIncomingEvents } from "./input/communication-input.js";
+import { handleActorUpdate } from "./output/communication-output.js";
 import { injectSettingsMenu } from "./settings-menu.js";
 import { registerPersistence } from "./persistence.js";
 
@@ -25,15 +26,13 @@ Hooks.on("ready", () => {
 });
 
 // gets called when ???
-Hooks.on("updateActor", (actor, change, options, userId) => {
+Hooks.on("updateActor", (actor, change, _options, userId) => {
   const currentUserId = game.userId;
   if (currentUserId !== userId) {
     return;
   }
-
-  console.log("actor-update from myself");
-  const blob = { actor: actor.data.name, change, userId };
-  notify(blob);
+  console.log("actor-update from myself", change);
+  handleActorUpdate(change);
 });
 
 // gets called when ???

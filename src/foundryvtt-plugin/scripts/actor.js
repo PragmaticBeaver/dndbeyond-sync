@@ -10,9 +10,18 @@ export function getPCSheetIds() {
 
 /**
  * Gets Actor of current User.
- * @returns {Object} Actor
+ * @returns {*} Actor
  */
 export function getActorOfCurrentUser() {
   const PCid = game.user.data.character;
-  return game.actors.get(PCid);
+  return getActor(PCid);
+}
+
+/**
+ * Gets Actor by ID.
+ * @param {string} actorId
+ * @returns {*} Actor
+ */
+export function getActor(actorId) {
+  return game.actors.get(actorId);
 }
