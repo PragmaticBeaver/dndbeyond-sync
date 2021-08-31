@@ -1,6 +1,4 @@
 export function handleDeathSaveUpdate(deathStatus) {
-  console.log("deathStatus", deathStatus);
-
   if (deathStatus.failure) {
     const failureContainer = document.getElementsByClassName(
       "ct-health-manager__deathsaves-group ct-health-manager__deathsaves-group--fails"
@@ -23,11 +21,8 @@ function updateBeyond(deathSaveContainer, count) {
   const maxCount = 3;
   const currentlyMarked = maxCount - inactiveMarks.length;
   const clickCount = count - currentlyMarked;
-  console.log("currentlyMarked", currentlyMarked);
-  console.log("clickCount", clickCount);
   for (let i = 0; i < clickCount; i++) {
     const mark = inactiveMarks[i];
-    console.log("click", mark);
     mark.click();
   }
 }

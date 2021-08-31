@@ -1,3 +1,4 @@
+import { ROLL_SKILL } from "../../common.js";
 import { createRoll, EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
 import { notify } from "../communication.js";
 
@@ -17,7 +18,7 @@ export function injectSkills(doc) {
     const val = sContainer.getElementsByClassName("ct-skills__col--skill")[0]
       .textContent;
 
-    const roll = createRoll("skill", val);
+    const roll = createRoll(ROLL_SKILL, val);
     const btn = sContainer.getElementsByClassName(
       "integrated-dice__container"
     )[0];

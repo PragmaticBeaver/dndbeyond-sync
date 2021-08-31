@@ -5,7 +5,9 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build:chrome": "node ./build/build-extension.js"
+    "build:chrome": "node ./build/build-extension.js",
+    "build:foundry": "node ./build/build-foundry-plugin.js",
+    "build": "yarn run build:chrome && yarn run build:foundry"
   },
   "devDependencies": {
     "esbuild": "^0.12.21",

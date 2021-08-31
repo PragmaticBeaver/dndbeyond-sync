@@ -1,5 +1,6 @@
 import { EVENT_FROM_DNDBEYOND, createRoll } from "../common.js";
 import { notify } from "../communication.js";
+import { ROLL_INITIATIVE } from "../../common.js";
 
 /**
  * Injects notification callback into initiative button.
@@ -13,7 +14,7 @@ export function injectInitiative(doc) {
     return;
   }
 
-  const roll = createRoll("initiative", "");
+  const roll = createRoll(ROLL_INITIATIVE, "");
   const btn = initContainer.getElementsByClassName(
     "integrated-dice__container"
   )[0];

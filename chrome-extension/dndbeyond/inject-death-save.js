@@ -1,5 +1,6 @@
 import { createRoll, EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
 import { notify } from "../communication.js";
+import { UPDATE_FROM_BEYOND_DEATH_SAVE } from "../../common.js";
 
 /**
  * Injects button into death-save page of D&D Beyond.
@@ -189,7 +190,7 @@ function injectFoundryNotificationInGroup(container, isSuccessGroup) {
         status.fail = active;
       }
 
-      const roll = createRoll("death-save", status);
+      const roll = createRoll(UPDATE_FROM_BEYOND_DEATH_SAVE, status);
       notify(EVENT_FROM_DNDBEYOND, roll);
     }, 100);
   };

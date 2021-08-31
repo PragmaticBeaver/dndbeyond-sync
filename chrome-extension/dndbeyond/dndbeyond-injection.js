@@ -25,6 +25,7 @@ import { handleDeathSaveUpdate } from "./update-death-save.js";
  * Listens for messages from content-script ("dndbeyond-sync-to-beyond" DOM events).
  */
 function listenForIncomingEvents() {
+  // todo create event type for updates
   document.addEventListener(EVENT_TO_DNDBEYOND, (...args) => {
     console.log("injection: received args", args);
     for (const evt of args) {

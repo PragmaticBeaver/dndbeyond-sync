@@ -12,6 +12,13 @@ import {
   handleInitiativeRoll,
   handleDeathSave,
 } from "./handle-rolls.js";
+import {
+  ROLL_ABILITY,
+  ROLL_ABILITY_SAVE,
+  ROLL_DEATH_SAVE,
+  ROLL_INITIATIVE,
+  ROLL_SKILL,
+} from "../../common.js";
 
 /**
  * Dispatches custom DOM event on document using "EVENT_FROM_FOUNDRY" as key.
@@ -47,26 +54,39 @@ export function listenForIncomingEvents() {
        */
 
       const isCurrentUserPC = actorId === PCId;
+      console.log("isCurrentUserPC ", isCurrentUserPC);
       if (!isCurrentUserPC) {
         return;
       }
       // console.log("received event", evt);
 
+      console.log(
+        "evts",
+        ROLL_ABILITY,
+        ROLL_ABILITY_SAVE,
+        ROLL_DEATH_SAVE,
+        ROLL_INITIATIVE,
+        ROLL_SKILL
+      );
+
       switch (evt.type) {
-        case "ability":
+        case ROLL_ABILITY:
           handleAbilityCheck(evt.value);
           break;
-        case "ability-save":
+        case ROLL_ABILITY_SAVE:
           handleAbilitySave(evt.value);
           break;
-        case "skill":
+        case ROLL_SKILL:
           handleSkillCheck(evt.value);
           break;
-        case "initiative":
+        case ROLL_INITIATIVE:
           handleInitiativeRoll();
           break;
-        case "death-save":
+        case ROLL_DEATH_SAVE:
           handleDeathSave();
+          break;
+        case UPDATE_DEATH_SAVE:
+          updateDeathSave(evt.value);
           break;
       }
     }
