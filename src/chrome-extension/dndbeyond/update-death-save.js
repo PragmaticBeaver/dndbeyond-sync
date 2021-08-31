@@ -1,8 +1,7 @@
 /**
  * todo
  * bug: when HP container in Beyond is NOT OPEN, update will fail!
- * bug: FoundryVTT => error when ActorSheet is closed
- * bug: FoundryVTT => value 0 from Beyond will not work
+ * bug: FoundryVTT => set death-save value to 3 (error in beyond)
  */
 
 export function handleDeathSaveUpdate(deathStatus) {
