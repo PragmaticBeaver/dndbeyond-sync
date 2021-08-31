@@ -18,6 +18,7 @@ import {
   ROLL_DEATH_SAVE,
   ROLL_INITIATIVE,
   ROLL_SKILL,
+  UPDATE_FROM_BEYOND_DEATH_SAVE,
 } from "../../common.js";
 
 /**
@@ -85,8 +86,9 @@ export function listenForIncomingEvents() {
         case ROLL_DEATH_SAVE:
           handleDeathSave();
           break;
-        case UPDATE_DEATH_SAVE:
-          updateDeathSave(evt.value);
+        case UPDATE_FROM_BEYOND_DEATH_SAVE:
+          // updateDeathSave(evt.value);
+          console.log("updateDeathSave", evt);
           break;
       }
     }
