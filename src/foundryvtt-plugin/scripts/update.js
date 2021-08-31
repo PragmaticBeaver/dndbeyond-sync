@@ -1,9 +1,5 @@
-// todo bug: won't display changes if sheet is opened (guess: needs rerender)
 export function updateDeathSave(actor, val) {
-  console.log("val", val);
-
   const actorDeathState = actor.data.data.attributes.death;
-  console.log("actorDeathState", actorDeathState);
 
   const success = val.success;
   if (success) {
@@ -15,5 +11,6 @@ export function updateDeathSave(actor, val) {
     actorDeathState.failure = failure;
   }
 
-  console.log("after update actorDeathState", actorDeathState);
+  // re-redner ActorSheet to display data-change
+  actor._sheet.render(true);
 }
