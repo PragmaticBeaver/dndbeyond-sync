@@ -2,7 +2,7 @@ import { build } from "esbuild";
 import fs from "fs";
 import path from "path";
 
-const rootPath = "./chrome-extension/";
+const rootPath = "./src/chrome-extension/";
 const distDir = "./dist";
 const outDir = distDir + "/extension";
 

@@ -2,7 +2,7 @@ import { build } from "esbuild";
 import fs from "fs";
 import path from "path";
 
-const rootPath = "./foundryvtt-plugin/";
+const rootPath = "./src/foundryvtt-plugin/";
 const distDir = "./dist";
 const outDir = distDir + "/foundry";
 const outDirStyles = outDir + "/styles";
