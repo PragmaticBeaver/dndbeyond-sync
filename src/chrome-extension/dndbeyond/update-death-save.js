@@ -1,11 +1,11 @@
-/**
- * todo
- * bug: when HP container in Beyond is NOT OPEN, update will fail!
- */
-
 export function handleDeathSaveUpdate(deathStatus) {
+  const hpManagement = document.getElementsByClassName("ct-health-manager")[0];
+  if (!hpManagement) {
+    const savesMenu = document.getElementsByClassName("ct-health-summary")[0];
+    savesMenu.click();
+  }
+
   if (deathStatus.failure !== undefined) {
-    console.log("deathStatus.failure", deathStatus.failure);
     const failureContainer = document.getElementsByClassName(
       "ct-health-manager__deathsaves-group ct-health-manager__deathsaves-group--fails"
     )[0];
