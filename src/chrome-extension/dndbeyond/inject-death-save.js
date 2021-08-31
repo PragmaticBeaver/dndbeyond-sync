@@ -1,6 +1,6 @@
 import { createRoll, EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
 import { notify } from "../communication.js";
-import { UPDATE_FROM_BEYOND_DEATH_SAVE } from "../../common.js";
+import { UPDATE_FROM_BEYOND_DEATH_SAVE } from "../../global.js";
 
 /**
  * Injects button into death-save page of D&D Beyond.

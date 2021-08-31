@@ -1,4 +1,4 @@
-import { ROLL_SKILL } from "../../common.js";
+import { ROLL_SKILL } from "../../global.js";
 import { createRoll, EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
 import { notify } from "../communication.js";
 

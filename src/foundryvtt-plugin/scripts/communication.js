@@ -19,7 +19,7 @@ import {
   ROLL_INITIATIVE,
   ROLL_SKILL,
   UPDATE_FROM_BEYOND_DEATH_SAVE,
-} from "../../common.js";
+} from "../../global.js";
 
 /**
  * Dispatches custom DOM event on document using "EVENT_FROM_FOUNDRY" as key.

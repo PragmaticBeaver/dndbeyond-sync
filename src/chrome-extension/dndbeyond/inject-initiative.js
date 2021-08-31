@@ -1,6 +1,6 @@
 import { EVENT_FROM_DNDBEYOND, createRoll } from "../common.js";
 import { notify } from "../communication.js";
-import { ROLL_INITIATIVE } from "../../common.js";
+import { ROLL_INITIATIVE } from "../../global.js";
 
 /**
  * Injects notification callback into initiative button.

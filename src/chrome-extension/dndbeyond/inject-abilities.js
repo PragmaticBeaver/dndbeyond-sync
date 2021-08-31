@@ -1,6 +1,6 @@
 import { createRoll, EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
 import { notify } from "../communication.js";
-import { ROLL_ABILITY, ROLL_ABILITY_SAVE } from "../../common.js";
+import { ROLL_ABILITY, ROLL_ABILITY_SAVE } from "../../global.js";
 
 /**
  * Injects notification callback into ability buttons.
