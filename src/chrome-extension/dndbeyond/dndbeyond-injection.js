@@ -3,8 +3,12 @@ import { injectAbilities, injectAbilitySaves } from "./inject-abilities.js";
 import { injectSkills } from "./inject-skills.js";
 import { injectDeathSave } from "./inject-death-save.js";
 import { injectInitiative } from "./inject-initiative.js";
-import { handleDeathSaveUpdate } from "./update-death-save.js";
-import { UPDATE_FROM_FOUNDRY_DEATH_SAVE } from "../../global.js";
+import { updateDeathSave } from "./update-death-save.js";
+import {
+  UPDATE_FROM_FOUNDRY_DEATH_SAVE,
+  UPDATE_FROM_FOUNDRY_HP,
+} from "../../global.js";
+import { updateHP } from "./update-hp.js";
 
 /**
  * Listens for messages from content-script ("dndbeyond-sync-to-beyond" DOM events).
@@ -17,7 +21,10 @@ function listenForIncomingEvents() {
 
     switch (evt.type) {
       case UPDATE_FROM_FOUNDRY_DEATH_SAVE:
-        handleDeathSaveUpdate(evt.value);
+        updateDeathSave(evt.value);
+        break;
+      case UPDATE_FROM_FOUNDRY_HP:
+        updateHP(evt.value);
         break;
     }
 

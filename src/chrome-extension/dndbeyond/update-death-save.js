@@ -1,4 +1,4 @@
-export function handleDeathSaveUpdate(deathStatus) {
+export function updateDeathSave(deathStatus) {
   const hpManagement = document.getElementsByClassName("ct-health-manager")[0];
   if (!hpManagement) {
     const savesMenu = document.getElementsByClassName("ct-health-summary")[0];

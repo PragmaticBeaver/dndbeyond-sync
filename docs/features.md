@@ -2,18 +2,34 @@
 
 ## Todo
 
-- hit die => actor.rollHitDie
-- long rest => actor.longRest
-- short rest => actor.shortRest
-- weapons (hit + damage)
-- spells
 - take DMG / heal => actor.applyDamage
-- inspiration
+- hit die => actor.rollHitDie
 - passive stats
 - feat / trait (post into foundry)
+- inspiration
+- weapons (hit + damage)
+- spells
 - use charge of magic item
 - item sync (add / remove)
 - mobile
+- bug: If PC has HP remaining but Player wrongly sets death-save in foundry; beyond will throw an error
+
+## Todo - combined features
+
+Combined features mean features that produce a distinct effect but are achieved through the combination of many smaller effects.
+
+- long rest
+  - => actor.longRest
+  - changes HP
+  - resets hit dice
+  - recharges spell-slots
+  - may recharge specific features/traits
+- short rest
+  - => actor.shortRest
+  - changes HP
+  - uses hit dice
+  - may recharge spell-slots
+  - may recharge specific features/traits
 
 ## Option to switch between browser and FoundryVTT Server communication
 

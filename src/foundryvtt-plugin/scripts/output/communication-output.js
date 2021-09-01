@@ -2,6 +2,7 @@ import { EVENT_FROM_FOUNDRY, getUserUrl } from "../common.js";
 import {
   UPDATE_FROM_FOUNDRY_DEATH_SAVE,
   createSyncEvent,
+  UPDATE_FROM_FOUNDRY_HP,
 } from "../../../global.js";
 
 /**
@@ -19,14 +20,24 @@ export function handleActorUpdate(change) {
   const actorId = change._id;
   const userUrl = getUserUrl(actorId);
 
+  // console.log("change", change);
+
   const deathSave = change.data?.attributes?.death;
   if (deathSave) {
-    console.log("isDeathSave", deathSave); // todo get userUrl
+    console.log("isDeathSave", deathSave);
     const evt = createSyncEvent(
       UPDATE_FROM_FOUNDRY_DEATH_SAVE,
       deathSave,
       userUrl
     );
+    notify(evt);
+    return;
+  }
+
+  const hpChange = change.data?.attributes?.hp?.value;
+  if (hpChange !== undefined) {
+    console.log("hpChange", hpChange);
+    const evt = createSyncEvent(UPDATE_FROM_FOUNDRY_HP, hpChange, userUrl);
     notify(evt);
     return;
   }

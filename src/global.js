@@ -7,9 +7,11 @@ export const ROLL_DEATH_SAVE = "roll-death-save";
 
 // events from D&D Beyond to FoundryVTT
 export const UPDATE_FROM_BEYOND_DEATH_SAVE = "update-f-beyond-death-save";
+export const UPDATE_FROM_BEYOND_HP = "update-f-beyond-hp";
 
 // events from FoundryVTT to D&D Beyond
 export const UPDATE_FROM_FOUNDRY_DEATH_SAVE = "update-f-foundry-death-save";
+export const UPDATE_FROM_FOUNDRY_HP = "update-f-foundry-hp";
 
 /**
  * Create new SyncEvent object.
