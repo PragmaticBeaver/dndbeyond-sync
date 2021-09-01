@@ -1,5 +1,20 @@
 # Possible Features
 
+## Todo
+
+- hit die => actor.rollHitDie
+- long rest => actor.longRest
+- short rest => actor.shortRest
+- weapons (hit + damage)
+- spells
+- take DMG / heal => actor.applyDamage
+- inspiration
+- passive stats
+- feat / trait (post into foundry)
+- use charge of magic item
+- item sync (add / remove)
+- mobile
+
 ## Option to switch between browser and FoundryVTT Server communication
 
 Note: current scope only applies to Browser

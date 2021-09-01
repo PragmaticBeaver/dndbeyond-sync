@@ -7,22 +7,6 @@ import { handleDeathSaveUpdate } from "./update-death-save.js";
 import { UPDATE_FROM_FOUNDRY_DEATH_SAVE } from "../../global.js";
 
 /**
- * todo
- * death save => actor.rollDeathSave
- * hit die => actor.rollHitDie
- * long rest => actor.longRest
- * short rest => actor.shortRest
- * weapons (hit + damage)
- * spells
- * take DMG / heal => actor.applyDamage
- * inspiration
- * passive stats
- * feat / trait (post into foundry)
- * use charge of magic item
- * item sync (add / remove)
- */
-
-/**
  * Listens for messages from content-script ("dndbeyond-sync-to-beyond" DOM events).
  */
 function listenForIncomingEvents() {
