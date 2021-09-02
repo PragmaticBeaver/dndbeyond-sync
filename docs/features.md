@@ -2,7 +2,11 @@
 
 ## Todo
 
+- stop ping-pong messages between Beyond and Foundry
 - take DMG / heal => actor.applyDamage
+  - take dmg
+  - heal
+  - respect temp-HP
 - hit die => actor.rollHitDie
 - passive stats
 - feat / trait (post into foundry)

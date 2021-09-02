@@ -9,6 +9,7 @@ import {
   UPDATE_FROM_FOUNDRY_HP,
 } from "../../global.js";
 import { updateHP } from "./update-hp.js";
+import { injectHP } from "./inject-hp.js";
 
 /**
  * Listens for messages from content-script ("dndbeyond-sync-to-beyond" DOM events).
@@ -46,6 +47,7 @@ function inject(_mutations, _observer) {
   injectSkills(doc);
   injectInitiative(doc);
   injectDeathSave(doc);
+  injectHP(doc);
 }
 
 /**
