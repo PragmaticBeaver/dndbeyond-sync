@@ -1,15 +1,23 @@
-import { EVENT_FROM_FOUNDRY, getUserUrl } from "../common.js";
+import { EVENT_FROM_FOUNDRY, getUserUrl } from "../../common.js";
 import {
   UPDATE_FROM_FOUNDRY_DEATH_SAVE,
   createSyncEvent,
   UPDATE_FROM_FOUNDRY_HP,
-} from "../../../global.js";
+} from "../../../../global.js";
+import { shouldSuppressMsg, supressMessages } from "../communication.js";
 
 /**
  * Dispatches custom DOM event on document using "EVENT_FROM_FOUNDRY" as key.
+ * Will stop event propagation if msg-suppression is enabled.
  * @param {Object} syncEvent SyncEvent to send to background
  */
 function notify(syncEvent) {
+  if (shouldSuppressMsg()) {
+    console.log("suppressed", syncEvent);
+    supressMessages(false);
+    return;
+  }
+
   const evt = new CustomEvent(EVENT_FROM_FOUNDRY, {
     detail: syncEvent,
   });

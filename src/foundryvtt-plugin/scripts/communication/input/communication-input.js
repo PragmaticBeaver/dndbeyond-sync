@@ -1,5 +1,5 @@
-import { CHARACTER_URLS, EVENT_TO_FOUNDRY } from "../common.js";
-import { loadData } from "../persistence.js";
+import { CHARACTER_URLS, EVENT_TO_FOUNDRY } from "../../common.js";
+import { loadData } from "../../persistence.js";
 import {
   handleAbilityCheck,
   handleAbilitySave,
@@ -15,9 +15,10 @@ import {
   ROLL_SKILL,
   UPDATE_FROM_BEYOND_DEATH_SAVE,
   UPDATE_FROM_BEYOND_HP,
-} from "../../../global.js";
-import { updateDeathSave, handleHpUpdate } from "../update.js";
-import { getActor } from "../actor.js";
+} from "../../../../global.js";
+import { updateDeathSave, handleHpUpdate } from "../../update.js";
+import { getActor } from "../../actor.js";
+import { supressMessages } from "../communication.js";
 
 /**
  * Listens for messages from dndbeyond-sync extension ("dndbeyond-sync-to-foundry" DOM events).
@@ -46,6 +47,11 @@ export function listenForIncomingEvents() {
         return;
       }
       // console.log("received event", evt);
+
+      const suppress = evt.suppress;
+      console.log("suppress msg", suppress);
+      supressMessages(suppress);
+
       const actor = getActor(actorId);
 
       switch (evt.type) {

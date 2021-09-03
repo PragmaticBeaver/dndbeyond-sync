@@ -1,6 +1,6 @@
 import { getPCSheetIds } from "./actor.js";
-import { listenForIncomingEvents } from "./input/communication-input.js";
-import { handleActorUpdate } from "./output/communication-output.js";
+import { listenForIncomingEvents } from "./communication/input/communication-input.js";
+import { handleActorUpdate } from "./communication/output/communication-output.js";
 import { injectSettingsMenu } from "./settings-menu.js";
 import { registerPersistence } from "./persistence.js";
 

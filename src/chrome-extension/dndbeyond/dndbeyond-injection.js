@@ -10,6 +10,7 @@ import {
 } from "../../global.js";
 import { updateHP } from "./update-hp.js";
 import { injectHP } from "./inject-hp.js";
+import { supressMessages, shouldSuppressMsg } from "../communication.js";
 
 /**
  * Listens for messages from content-script ("dndbeyond-sync-to-beyond" DOM events).
@@ -18,7 +19,11 @@ function listenForIncomingEvents() {
   // todo create event type for updates
   document.addEventListener(EVENT_TO_DNDBEYOND, (args) => {
     const evt = args.detail;
-    console.log("event", evt);
+    // console.log("event", evt);
+
+    const suppress = evt.suppress;
+    supressMessages(suppress);
+    console.log("suppress msg", suppress);
 
     switch (evt.type) {
       case UPDATE_FROM_FOUNDRY_DEATH_SAVE:
