@@ -2,7 +2,7 @@
 
 ## Todo
 
-- stop ping-pong messages between Beyond and Foundry
+- Inject own btn (necessary because disabling the dice roll will not render any btn elements)
 - take DMG / heal => actor.applyDamage
   - take dmg
   - heal
