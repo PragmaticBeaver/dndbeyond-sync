@@ -27,19 +27,19 @@ export function notifyBackgroundScript(port, blob) {
 
 /**
  * Dispatches custom DOM event on document using "event" as key.
- * @param {string} event event key
- * @param {*} blob message data
+ * @param {string} eventName event key
+ * @param {SyncEvent} evt message data
  */
-export function notify(event, blob) {
+export function notify(eventName, evt) {
   if (shouldSuppressMsg()) {
-    console.log("suppressed", event, blob);
+    console.log("suppressed", eventName, evt);
     supressMessages(false);
     return;
   }
 
-  const syncEvent = new CustomEvent(event, {
-    detail: blob,
+  const syncEvent = new CustomEvent(eventName, {
+    detail: evt,
   });
-  console.log("notify", event, blob);
+  console.log("notify", eventName, evt);
   document.dispatchEvent(syncEvent);
 }
