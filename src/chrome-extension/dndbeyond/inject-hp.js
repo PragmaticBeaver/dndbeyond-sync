@@ -2,9 +2,10 @@ import { EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
 import { notify } from "../communication.js";
 import { UPDATE_FROM_BEYOND_HP, createSyncEvent } from "../../global.js";
 
+let lastHpMutation = undefined;
+
 function inject(mutations, _observer) {
   // todo mutation handle => innerText changed || render death-save element
-  console.log("mutations", mutations);
   for (const m of mutations) {
     const isCurrentHpMutation = m.target.nodeName === "#text";
     if (!isCurrentHpMutation) {
@@ -12,6 +13,12 @@ function inject(mutations, _observer) {
     }
 
     const value = m.target.data;
+    if (value === lastHpMutation) {
+      console.log("same HP skipping message");
+      continue;
+    }
+    lastHpMutation = value;
+
     const evt = createSyncEvent(UPDATE_FROM_BEYOND_HP, value, getUserUrl());
     notify(EVENT_FROM_DNDBEYOND, evt);
   }
