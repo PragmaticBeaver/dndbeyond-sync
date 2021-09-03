@@ -18,7 +18,7 @@ export function injectSkills(doc) {
     const val = sContainer.getElementsByClassName("ct-skills__col--skill")[0]
       .textContent;
 
-    const roll = createSyncEvent(ROLL_SKILL, val, getUserUrl());
+    const roll = createSyncEvent(ROLL_SKILL, val, getUserUrl(), true);
     const btn = sContainer.getElementsByClassName(
       "integrated-dice__container"
     )[0];

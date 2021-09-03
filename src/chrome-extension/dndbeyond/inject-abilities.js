@@ -37,7 +37,7 @@ export function injectAbilities(doc) {
       "ddbc-signed-number__sign"
     )[0].textContent;
 
-    const roll = createSyncEvent(ROLL_ABILITY, abilityName, getUserUrl());
+    const roll = createSyncEvent(ROLL_ABILITY, abilityName, getUserUrl(), true);
     const btn = container.getElementsByTagName("button")[0];
     btn.onclick = () => {
       notify(EVENT_FROM_DNDBEYOND, roll);
@@ -61,7 +61,7 @@ export function injectAbilitySaves(doc) {
     const val = e.getElementsByClassName(
       "ddbc-saving-throws-summary__ability-name "
     )[0].textContent;
-    const roll = createSyncEvent(ROLL_ABILITY_SAVE, val, getUserUrl());
+    const roll = createSyncEvent(ROLL_ABILITY_SAVE, val, getUserUrl(), true);
     const btn = e.getElementsByClassName("integrated-dice__container")[0];
     btn.onclick = () => {
       notify(EVENT_FROM_DNDBEYOND, roll);
