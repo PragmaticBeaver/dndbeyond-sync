@@ -7,7 +7,8 @@ let lastHpMutation = undefined;
 function inject(mutations, _observer) {
   // todo mutation handle => innerText changed || render death-save element
   for (const m of mutations) {
-    const isCurrentHpMutation = m.target.nodeName === "#text";
+    const isCurrentHpMutation =
+      m.target.nodeName === "#text" && !isNaN(m.target.nodeValue);
     if (!isCurrentHpMutation) {
       continue;
     }
