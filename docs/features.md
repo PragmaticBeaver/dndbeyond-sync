@@ -2,8 +2,9 @@
 
 ## Todo
 
-- Inject own btn (necessary because disabling the dice roll will not render any btn elements)
 - take DMG / heal => actor.applyDamage
+  - update mechanic => HP (also part of death-save, because crit-success = 1 HP!)
+  - handle change from 1 HP to death save menu (0HP) => send hp change with value 0
   - take dmg
   - heal
   - respect temp-HP
