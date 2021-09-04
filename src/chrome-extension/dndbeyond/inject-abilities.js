@@ -19,30 +19,29 @@ export function injectAbilities(doc) {
   const abilityContainers = abilities.getElementsByClassName(
     "ddbc-ability-summary"
   );
-  for (const container of abilityContainers) {
+  console.log("abilityContainers", abilityContainers);
+
+  Array.from(abilityContainers).forEach((container) => {
     const abilityName = container.getElementsByClassName(
       "ddbc-ability-summary__abbr"
     )[0].textContent;
-    const abilityScore = container.getElementsByClassName(
-      "ddbc-ability-summary__secondary"
-    )[0].textContent;
 
-    const abilityModContainer = container.getElementsByClassName(
-      "ddbc-signed-number ddbc-signed-number--large"
+    const abilityContainer = container.getElementsByClassName(
+      "ddbc-ability-summary__primary"
     )[0];
-    const abilityModVal = abilityModContainer.getElementsByClassName(
-      "ddbc-signed-number__number"
-    )[0].textContent;
-    const abilityModSign = abilityModContainer.getElementsByClassName(
-      "ddbc-signed-number__sign"
-    )[0].textContent;
+    const children = Array.from(abilityContainer.children);
 
-    const roll = createSyncEvent(ROLL_ABILITY, abilityName, getUserUrl(), true);
-    const btn = container.getElementsByTagName("button")[0];
+    const btn = document.createElement("button");
+    const evt = createSyncEvent(ROLL_ABILITY, abilityName, getUserUrl(), true);
     btn.onclick = () => {
-      notify(EVENT_FROM_DNDBEYOND, roll);
+      notify(EVENT_FROM_DNDBEYOND, evt);
     };
-  }
+    children.forEach((c) => {
+      btn.appendChild(c);
+    });
+
+    abilityContainer.appendChild(btn);
+  });
 }
 
 /**
