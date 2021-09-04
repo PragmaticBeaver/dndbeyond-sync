@@ -9,7 +9,7 @@ import {
   UPDATE_FROM_FOUNDRY_HP,
 } from "../../global.js";
 import { updateHP } from "./update-hp.js";
-import { injectHP } from "./inject-hp.js";
+import { handleHPChange } from "./inject-hp.js";
 import { supressMessages, shouldSuppressMsg } from "../communication.js";
 
 // ENTRY FILE FOR D&D BEYOND CODE
@@ -42,8 +42,6 @@ function disableDiceRolling(doc) {
   reduceSidePane(doc);
 }
 
-// todo - override preferences pane whenever it gets rendered
-// ct-preferences-pane
 function overridePreferencesPane(doc) {
   // disable dice rolling
   const preferencesPane = doc.getElementsByClassName("ct-preferences-pane")[0];
@@ -78,72 +76,47 @@ function overridePreferencesPane(doc) {
   desc.innerText = "Disabled by browser extension 'D&D Beyond Sync'.";
 }
 
-/**
- * Observes side pane with preferences to override settings (dice rolling).
- */
-function observePreferencePane() {
+function observeDocument(doc) {
   const observer = new window.MutationObserver((mutations, _observer) => {
-    const importantMutations = mutations.filter((m) => {
+    for (const m of mutations) {
       const element = m.target;
-      let inactiveToggle;
-      let activeToggle;
+
       try {
-        inactiveToggle = element?.getElementsByClassName(
-          "ddbc-toggle-field  ddbc-toggle-field--is-disabled ddbc-toggle-field--is-interactive"
-        )[0];
-        activeToggle = element?.getElementsByClassName(
-          "ddbc-toggle-field  ddbc-toggle-field--is-enabled ddbc-toggle-field--is-interactive"
-        )[0];
+        element.getElementsByClassName("");
       } catch {
-        return;
+        // HP changes
+        const isCurrentHpMutation =
+          m.target.nodeName === "#text" && !isNaN(m.target.nodeValue);
+        if (isCurrentHpMutation) {
+          handleHPChange(m.target.data);
+        }
+        continue;
       }
 
+      // death save
+      const deathSavesGroups = element.getElementsByClassName(
+        "ct-health-manager__deathsaves-groups"
+      )[0];
+      if (deathSavesGroups) {
+        injectDeathSave(doc);
+        continue;
+      }
+
+      // preference pane
+      const inactiveToggle = element.getElementsByClassName(
+        "ddbc-toggle-field  ddbc-toggle-field--is-disabled ddbc-toggle-field--is-interactive"
+      )[0];
+      const activeToggle = element.getElementsByClassName(
+        "ddbc-toggle-field  ddbc-toggle-field--is-enabled ddbc-toggle-field--is-interactive"
+      )[0];
       if (inactiveToggle || activeToggle) {
-        return m;
+        overridePreferencesPane(document);
+        continue;
       }
-    });
-
-    const preferencesPaneRendered =
-      importantMutations && importantMutations.length > 0;
-    if (!preferencesPaneRendered) {
-      return;
     }
-    overridePreferencesPane(document);
   });
-  observer.observe(document, {
-    subtree: true,
-    childList: true,
-    characterData: true,
-    subtree: true,
-  });
-}
 
-function observeHealthManagePane() {
-  const observer = new window.MutationObserver((mutations, _observer) => {
-    const importantMutations = mutations.filter((m) => {
-      const element = m.target;
-      let deathSavesGroups;
-      try {
-        deathSavesGroups = element?.getElementsByClassName(
-          "ct-health-manager__deathsaves-groups"
-        )[0];
-      } catch {
-        return;
-      }
-
-      if (!deathSavesGroups) {
-        return;
-      }
-      injectDeathSave(document);
-    });
-    const preferencesPaneRendered =
-      importantMutations && importantMutations.length > 0;
-    if (!preferencesPaneRendered) {
-      return;
-    }
-    overridePreferencesPane(document);
-  });
-  observer.observe(document, {
+  observer.observe(doc, {
     subtree: true,
     childList: true,
     characterData: true,
@@ -173,8 +146,7 @@ function listenForIncomingEvents() {
         break;
     }
 
-    // HP (also part of death-save, because crit-success = 1 HP!)
-    // todo mutate DOM
+    // todo HP (also part of death-save, because crit-success = 1 HP!)
   });
 }
 
@@ -186,23 +158,14 @@ function inject() {
   const doc = document.documentElement;
 
   disableDiceRolling(doc);
+
   injectAbilities(doc);
   injectAbilitySaves(doc);
   injectSkills(doc);
   injectInitiative(doc);
 
-  // injectHP(doc);
-  observePreferencePane();
-  observeHealthManagePane();
+  observeDocument(doc);
 }
-
-/**
- * todo deathSave-container will only be rendered when PC loses all of his/her HP.
- * how to handle?
- *  => can't find "roll death save"-button
- *  => may need to inject own button for "death save roll" which will ask foundry to make a roll
- *    =>> needs to notify beyond about return
- */
 
 const interval = setInterval(() => {
   if (document.readyState !== "complete") {
