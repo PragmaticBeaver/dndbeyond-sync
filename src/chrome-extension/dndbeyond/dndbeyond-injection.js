@@ -12,6 +12,8 @@ import { updateHP } from "./update-hp.js";
 import { injectHP } from "./inject-hp.js";
 import { supressMessages, shouldSuppressMsg } from "../communication.js";
 
+// ENTRY FILE FOR D&D BEYOND CODE
+
 /**
  * Listens for messages from content-script ("dndbeyond-sync-to-beyond" DOM events).
  */
