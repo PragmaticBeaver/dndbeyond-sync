@@ -27,9 +27,4 @@ export function injectInitiative(doc) {
   )[0];
   btn.appendChild(span);
   initContainer.appendChild(btn);
-
-  // const background = initContainer.getElementsByClassName(
-  //   "ddbc-box-background"
-  // )[0];
-  // initContainer.appendChild(background);
 }
