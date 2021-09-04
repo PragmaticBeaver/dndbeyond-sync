@@ -149,7 +149,7 @@ function inject() {
   disableDiceRolling(doc);
   injectAbilities(doc);
   injectAbilitySaves(doc);
-  // injectSkills(doc);
+  injectSkills(doc);
   // injectInitiative(doc);
   // injectDeathSave(doc);
   // injectHP(doc);

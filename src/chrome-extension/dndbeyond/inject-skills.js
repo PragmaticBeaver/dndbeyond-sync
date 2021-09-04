@@ -1,5 +1,5 @@
 import { ROLL_SKILL, createSyncEvent } from "../../global.js";
-import { EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
+import { EVENT_FROM_DNDBEYOND, getUserUrl, insertNode } from "../common.js";
 import { notify } from "../communication.js";
 
 /**
@@ -19,11 +19,16 @@ export function injectSkills(doc) {
       .textContent;
 
     const roll = createSyncEvent(ROLL_SKILL, val, getUserUrl(), true);
-    const btn = sContainer.getElementsByClassName(
-      "integrated-dice__container"
-    )[0];
-    btn.onclick = () => {
+    const btn = document.createElement("button");
+    btn.classList = "dndsync-beyond-skill-btn";
+    btn.onclick = (ev) => {
+      ev.stopPropagation();
       notify(EVENT_FROM_DNDBEYOND, roll);
     };
+
+    const modifierContainer = sContainer.getElementsByClassName(
+      "ct-skills__col--modifier"
+    )[0];
+    insertNode(modifierContainer, btn);
   }
 }

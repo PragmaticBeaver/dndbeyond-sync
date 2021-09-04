@@ -1,20 +1,23 @@
 :root {
-  --btn-hover-color: #c8321f13;
+  --btn-hover-color: #c8331f2c;
 }
 
-.dndsync-beyond-btn {
+/* Abilities */
+.dndsync-beyond-ability-btn {
   width: 60px;
   height: 34px;
   position: relative;
   transition: all 0.2s ease-in-out;
+  background: transparent;
   border-radius: 10px;
   border-width: 1px;
 }
-.dndsync-beyond-btn:hover {
+.dndsync-beyond-ability-btn:hover {
   background: var(--btn-hover-color);
   font-weight: bold;
 }
 
+/* Saving throws */
 .dndsync-beyond-saving-throw-btn {
   width: 42px;
   height: 36px;
@@ -52,4 +55,17 @@
 
 .dndsync-beyond-saving-throw-container {
   z-index: 1;
+}
+
+/* Skills */
+
+.dndsync-beyond-skill-btn {
+  border-radius: 10px;
+  border-width: 1px;
+  background: transparent;
+  transition: all 0.2s ease-in-out;
+}
+.dndsync-beyond-skill-btn:hover {
+  background: var(--btn-hover-color);
+  font-weight: bold;
 }
