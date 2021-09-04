@@ -7,7 +7,7 @@
   "host_permissions": ["*://*.dndbeyond.com/*", "*://*/game"],
   "web_accessible_resources": [
     {
-      "resources": ["dndbeyond-injection.js"],
+      "resources": ["dndbeyond-injection.js", "dndbeyond-injection.css"],
       "matches": ["*://*.dndbeyond.com/*"]
     }
   ],

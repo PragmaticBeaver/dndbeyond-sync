@@ -17,6 +17,12 @@ if (!fs.existsSync(outDir)) {
 // copy manifest
 fs.copyFileSync(rootPath + "manifest.json", outDir + "/manifest.json");
 
+// copy styles
+fs.copyFileSync(
+  path.join(rootPath, "dndbeyond", "dndbeyond-injection.css"),
+  outDir + "/dndbeyond-injection.css"
+);
+
 // build background
 const backgroundFiles = [path.join(rootPath, "background.js")];
 build({

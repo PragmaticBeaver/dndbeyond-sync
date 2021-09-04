@@ -16,12 +16,20 @@ import {
  * inject script inside document to get control of DOM
  * https://stackoverflow.com/questions/9515704/use-a-content-script-to-access-the-page-context-variables-and-functions
  */
-var s = document.createElement("script");
+const s = document.createElement("script");
 s.src = chrome.runtime.getURL("dndbeyond-injection.js");
 s.onload = function () {
   this.remove();
 };
 (document.head || document.documentElement).appendChild(s);
+
+// inject custom css
+const l = document.createElement("link");
+l.href = chrome.runtime.getURL("dndbeyond-injection.css");
+l.type = "text/css";
+l.rel = "stylesheet";
+l.media = "screen,print";
+document.head.appendChild(l);
 
 // connect to background.js
 const port = connectContentScript(DNDBEYOND_PORT_ID);
