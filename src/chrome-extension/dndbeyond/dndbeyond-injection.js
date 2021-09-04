@@ -85,18 +85,57 @@ function observePreferencePane() {
   const observer = new window.MutationObserver((mutations, _observer) => {
     const importantMutations = mutations.filter((m) => {
       const element = m.target;
-      const inactiveToggle = element.getElementsByClassName(
-        "ddbc-toggle-field  ddbc-toggle-field--is-disabled ddbc-toggle-field--is-interactive"
-      )[0];
-      const activeToggle = element.getElementsByClassName(
-        "ddbc-toggle-field  ddbc-toggle-field--is-enabled ddbc-toggle-field--is-interactive"
-      )[0];
+      let inactiveToggle;
+      let activeToggle;
+      try {
+        inactiveToggle = element?.getElementsByClassName(
+          "ddbc-toggle-field  ddbc-toggle-field--is-disabled ddbc-toggle-field--is-interactive"
+        )[0];
+        activeToggle = element?.getElementsByClassName(
+          "ddbc-toggle-field  ddbc-toggle-field--is-enabled ddbc-toggle-field--is-interactive"
+        )[0];
+      } catch {
+        return;
+      }
 
       if (inactiveToggle || activeToggle) {
         return m;
       }
     });
 
+    const preferencesPaneRendered =
+      importantMutations && importantMutations.length > 0;
+    if (!preferencesPaneRendered) {
+      return;
+    }
+    overridePreferencesPane(document);
+  });
+  observer.observe(document, {
+    subtree: true,
+    childList: true,
+    characterData: true,
+    subtree: true,
+  });
+}
+
+function observeHealthManagePane() {
+  const observer = new window.MutationObserver((mutations, _observer) => {
+    const importantMutations = mutations.filter((m) => {
+      const element = m.target;
+      let deathSavesGroups;
+      try {
+        deathSavesGroups = element?.getElementsByClassName(
+          "ct-health-manager__deathsaves-groups"
+        )[0];
+      } catch {
+        return;
+      }
+
+      if (!deathSavesGroups) {
+        return;
+      }
+      injectDeathSave(document);
+    });
     const preferencesPaneRendered =
       importantMutations && importantMutations.length > 0;
     if (!preferencesPaneRendered) {
@@ -151,9 +190,10 @@ function inject() {
   injectAbilitySaves(doc);
   injectSkills(doc);
   injectInitiative(doc);
-  // injectDeathSave(doc);
+
   // injectHP(doc);
   observePreferencePane();
+  observeHealthManagePane();
 }
 
 /**
