@@ -10,3 +10,23 @@ export const EVENT_TO_FOUNDRY = "dndbeyond-sync-to-foundry";
 export function getUserUrl() {
   return window.location.href;
 }
+
+export function reduceSidePane(doc) {
+  const reducePaneBtn = doc.getElementsByClassName(
+    "ddbc-tooltip ct-sidebar__control ct-sidebar__control--collapse ddbc-tooltip--is-interactive"
+  )[0];
+  reducePaneBtn.click();
+}
+
+/**
+ * Insert a node inbetween the parent and its children.
+ * @param {Node} parent Parent Node
+ * @param {Node} node Node which should be placed between parent and its children.
+ */
+export function insertNode(parent, node) {
+  const children = Array.from(parent.children);
+  children.forEach((c) => {
+    node.appendChild(c);
+  });
+  parent.appendChild(node);
+}

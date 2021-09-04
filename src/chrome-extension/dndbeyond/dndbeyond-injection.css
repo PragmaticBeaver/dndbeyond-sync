@@ -1,5 +1,55 @@
+:root {
+  --btn-hover-color: #c8321f13;
+}
+
 .dndsync-beyond-btn {
-  position: relative;
   width: 60px;
   height: 34px;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+  border-radius: 10px;
+  border-width: 1px;
+}
+.dndsync-beyond-btn:hover {
+  background: var(--btn-hover-color);
+  font-weight: bold;
+}
+
+.dndsync-beyond-saving-throw-btn {
+  width: 42px;
+  height: 36px;
+  border: 0;
+  background: transparent;
+  box-sizing: border-box;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  color: #394b59;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.dndsync-beyond-saving-throw-btn:hover {
+  background: transparent;
+  font-weight: bold;
+}
+
+.dndsync-beyond-saving-throw-svg {
+  width: 36px;
+  height: 36px;
+  position: absolute;
+  left: 70px;
+  top: 0;
+  fill: transparent !important;
+  z-index: -1;
+  display: block !important;
+  transition: all 0.2s ease-in-out;
+}
+.dndsync-beyond-saving-throw-btn:hover ~ .dndsync-beyond-saving-throw-svg {
+  fill: var(--btn-hover-color) !important;
+  font-weight: bold;
+}
+
+.dndsync-beyond-saving-throw-container {
+  z-index: 1;
 }

@@ -1,4 +1,4 @@
-import { EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
+import { EVENT_FROM_DNDBEYOND, getUserUrl, insertNode } from "../common.js";
 import { notify } from "../communication.js";
 import {
   ROLL_ABILITY,
@@ -19,17 +19,11 @@ export function injectAbilities(doc) {
   const abilityContainers = abilities.getElementsByClassName(
     "ddbc-ability-summary"
   );
-  console.log("abilityContainers", abilityContainers);
 
   Array.from(abilityContainers).forEach((container) => {
     const abilityName = container.getElementsByClassName(
       "ddbc-ability-summary__abbr"
     )[0].textContent;
-
-    const abilityContainer = container.getElementsByClassName(
-      "ddbc-ability-summary__primary"
-    )[0];
-    const children = Array.from(abilityContainer.children);
 
     const btn = document.createElement("button");
     btn.classList = "dndsync-beyond-btn";
@@ -38,11 +32,12 @@ export function injectAbilities(doc) {
       ev.stopPropagation();
       notify(EVENT_FROM_DNDBEYOND, evt);
     };
-    children.forEach((c) => {
-      btn.appendChild(c);
-    });
 
-    abilityContainer.appendChild(btn);
+    const abilityContainer = container.getElementsByClassName(
+      "ddbc-ability-summary__primary"
+    )[0];
+
+    insertNode(abilityContainer, btn);
   });
 }
 
@@ -60,12 +55,26 @@ export function injectAbilitySaves(doc) {
 
   for (const e of savesContainer.children) {
     const val = e.getElementsByClassName(
-      "ddbc-saving-throws-summary__ability-name "
+      "ddbc-saving-throws-summary__ability-name"
     )[0].textContent;
+
+    const btn = document.createElement("button");
+    btn.classList = "dndsync-beyond-saving-throw-btn";
     const roll = createSyncEvent(ROLL_ABILITY_SAVE, val, getUserUrl(), true);
-    const btn = e.getElementsByClassName("integrated-dice__container")[0];
-    btn.onclick = () => {
+    btn.onclick = (ev) => {
+      ev.stopPropagation();
       notify(EVENT_FROM_DNDBEYOND, roll);
     };
+
+    const modifierContainer = e.getElementsByClassName(
+      "ddbc-saving-throws-summary__ability-modifier"
+    )[0];
+    modifierContainer.classList += " dndsync-beyond-saving-throw-container";
+
+    insertNode(modifierContainer, btn);
+
+    const svg = btn.getElementsByTagName("svg")[0];
+    svg.classList += " dndsync-beyond-saving-throw-svg";
+    modifierContainer.appendChild(svg);
   }
 }

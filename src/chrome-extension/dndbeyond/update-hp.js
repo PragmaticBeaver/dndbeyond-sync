@@ -1,3 +1,5 @@
+import { reduceSidePane } from "../common.js";
+
 export function updateHP(hpValue) {
   const healthSummary = document.getElementsByClassName(
     "ct-health-summary__hp"
@@ -51,8 +53,5 @@ export function updateHP(hpValue) {
     )[0];
   applyBtn.click();
 
-  const reducePaneBtn = document.getElementsByClassName(
-    "ddbc-tooltip ct-sidebar__control ct-sidebar__control--collapse ddbc-tooltip--is-interactive"
-  )[0];
-  reducePaneBtn.click();
+  reduceSidePane(document);
 }
