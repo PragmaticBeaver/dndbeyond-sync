@@ -41,18 +41,16 @@ function listenForIncomingEvents() {
 
 /**
  * Injects DOM with callbacks.
- * @param {*} _mutations
- * @param {*} _observer
  */
-function inject(_mutations, _observer) {
-  // todo may be => don't inject multiple times ?
+function inject() {
+  console.log("injecting ...");
   const doc = document.documentElement;
   injectAbilities(doc);
-  injectAbilitySaves(doc);
-  injectSkills(doc);
-  injectInitiative(doc);
-  injectDeathSave(doc);
-  injectHP(doc);
+  // injectAbilitySaves(doc);
+  // injectSkills(doc);
+  // injectInitiative(doc);
+  // injectDeathSave(doc);
+  // injectHP(doc);
 }
 
 /**
@@ -63,12 +61,11 @@ function inject(_mutations, _observer) {
  *    =>> needs to notify beyond about return
  */
 
-const observer = new window.MutationObserver(inject);
-observer.observe(document, {
-  subtree: true,
-  childList: true,
-  characterData: true,
-  subtree: true,
-});
-
-listenForIncomingEvents();
+const interval = setInterval(() => {
+  if (document.readyState !== "complete") {
+    return;
+  }
+  inject();
+  listenForIncomingEvents();
+  clearInterval(interval);
+}, 1000);
