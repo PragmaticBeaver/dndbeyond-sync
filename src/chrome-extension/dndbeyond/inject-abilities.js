@@ -34,7 +34,8 @@ export function injectAbilities(doc) {
     const btn = document.createElement("button");
     btn.classList = "dndsync-beyond-btn";
     const evt = createSyncEvent(ROLL_ABILITY, abilityName, getUserUrl(), true);
-    btn.onclick = () => {
+    btn.onclick = (ev) => {
+      ev.stopPropagation();
       notify(EVENT_FROM_DNDBEYOND, evt);
     };
     children.forEach((c) => {
