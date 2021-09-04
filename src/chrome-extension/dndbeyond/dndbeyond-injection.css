@@ -69,3 +69,18 @@
   background: var(--btn-hover-color);
   font-weight: bold;
 }
+
+/* Initiative */
+
+.dndsync-beyond-initiative-btn {
+  width: 55px;
+  border-radius: 10px;
+  border-width: 1px;
+  background: transparent;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+}
+.dndsync-beyond-initiative-btn:hover {
+  background: var(--btn-hover-color);
+  font-weight: bold;
+}

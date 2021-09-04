@@ -150,7 +150,7 @@ function inject() {
   injectAbilities(doc);
   injectAbilitySaves(doc);
   injectSkills(doc);
-  // injectInitiative(doc);
+  injectInitiative(doc);
   // injectDeathSave(doc);
   // injectHP(doc);
   observePreferencePane();

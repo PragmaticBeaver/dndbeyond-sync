@@ -15,10 +15,21 @@ export function injectInitiative(doc) {
   }
 
   const roll = createSyncEvent(ROLL_INITIATIVE, "", getUserUrl());
-  const btn = initContainer.getElementsByClassName(
-    "integrated-dice__container"
-  )[0];
-  btn.onclick = () => {
+  const btn = document.createElement("button");
+  btn.classList = "dndsync-beyond-initiative-btn";
+  btn.onclick = (ev) => {
+    ev.stopPropagation();
     notify(EVENT_FROM_DNDBEYOND, roll);
   };
+
+  const span = initContainer.getElementsByClassName(
+    "ddbc-signed-number  ddbc-signed-number--large"
+  )[0];
+  btn.appendChild(span);
+  initContainer.appendChild(btn);
+
+  // const background = initContainer.getElementsByClassName(
+  //   "ddbc-box-background"
+  // )[0];
+  // initContainer.appendChild(background);
 }
