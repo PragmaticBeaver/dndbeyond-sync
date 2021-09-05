@@ -7,10 +7,22 @@ import {
 } from "../../../global.js";
 
 /**
- * Injects button into death-save page of D&D Beyond.
+ * Injects button into death-save summary (where HP is usually show) of D&D Beyond.
+ * @param {Document} doc
  * @returns {void}
  */
-export function injectDeathSave(doc) {
+export function injectDeathSaveSummary(doc) {
+  // todo set element with id and check for that id; don't execute if id exists!
+  console.log("injectDeathSaveSummary");
+  // todo
+}
+
+/**
+ * Injects button into death-save side pane of D&D Beyond.
+ * @param {Document} doc
+ * @returns {void}
+ */
+export function injectDeathSavePane(doc) {
   const beyondSyncBtn = document.getElementById("dndbeyond-sync-deathsave-btn");
   if (beyondSyncBtn) {
     return;

@@ -3,6 +3,8 @@
 ## Todo
 
 - take DMG / heal => actor.applyDamage
+  - inject HP-btn in normal view
+  - inject HP-btn in health-manager view
   - bug: PC dead; inside HP management click "+1 HP" => sends event without "apply"
   - update mechanic => HP (also part of death-save, because crit-success = 1 HP!)
   - handle change from 1 HP to death save menu (0HP) => send hp change with value 0
@@ -19,6 +21,7 @@
 - item sync (add / remove)
 - mobile
 - bug: If PC has HP remaining but Player wrongly sets death-save in foundry; beyond will throw an error
+- (possible) bug: connection to background.js gets lost
 
 ## Todo - combined features
 

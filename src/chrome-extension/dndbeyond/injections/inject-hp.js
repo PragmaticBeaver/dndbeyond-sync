@@ -14,3 +14,16 @@ export function handleHPChange(val) {
   const evt = createSyncEvent(UPDATE_FROM_BEYOND_HP, val, getUserUrl());
   notify(EVENT_FROM_DNDBEYOND, evt);
 }
+
+export function injectHpSummary(doc) {
+  // todo set element with id and check for that id; don't execute if id exists!
+  console.log("injectHp");
+  // todo
+}
+
+export function injectHpManager(doc) {
+  // todo set element with id and check for that id; don't execute if id exists!
+  console.log("injectHpManager");
+  // todo
+  // override apply button so it WONT ask for approval!
+}

@@ -6,8 +6,10 @@ import {
 import { injectSkills } from "./injections/inject-skills.js";
 import { injectInitiative } from "./injections/inject-initiative.js";
 import { listenForIncomingEvents } from "./communication-input.js";
-import { observeDocument } from "./injections/observable -injections.js";
+import { observeDocument } from "./injections/observable-injections.js";
 import { injectPreferencesPane } from "./injections/inject-preferences-pane.js";
+import { injectHpSummary } from "./injections/inject-hp.js";
+import { injectDeathSaveSummary } from "./injections/inject-death-save.js";
 
 // ENTRY FILE FOR D&D BEYOND CODE
 
@@ -52,6 +54,9 @@ function inject() {
   injectAbilitySaves(doc);
   injectSkills(doc);
   injectInitiative(doc);
+
+  injectHpSummary(doc);
+  injectDeathSaveSummary(doc);
 
   observeDocument(doc);
 }
