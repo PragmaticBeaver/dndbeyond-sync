@@ -84,3 +84,16 @@
   background: var(--btn-hover-color);
   font-weight: bold;
 }
+
+/* HP management */
+
+.dndsync-beyond-hp-btn {
+  border-radius: 10px !important;
+  border-width: 1px !important;
+  background: transparent !important;
+  transition: all 0.2s ease-in-out !important;
+}
+.dndsync-beyond-hp-btn:hover {
+  background: var(--btn-hover-color) !important;
+  font-weight: bold;
+}

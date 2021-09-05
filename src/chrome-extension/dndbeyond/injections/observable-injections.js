@@ -7,7 +7,6 @@ import { injectPreferencesPane } from "./inject-preferences-pane.js";
 
 // mutations
 const HP_SUMMARY = "hp-summary";
-const DEATH_SAVE_SUMMARY = "ds-summary";
 const DEATH_SAVE_PANE = "ds-pane";
 const PREFERENCE_PANE = "pref-pane";
 // complex mutations
@@ -36,14 +35,6 @@ export function observeDocument(doc) {
         element?.className?.trim() === "ct-health-summary__hp";
       if (isHpSummary) {
         mutationsToHandle[HP_SUMMARY] = m;
-      }
-
-      // death save summary rendered
-      const isDeathSaveSummary =
-        element?.className?.trim() ===
-        "ct-health-summary__data ct-health-summary__deathsaves";
-      if (isDeathSaveSummary) {
-        mutationsToHandle[DEATH_SAVE_SUMMARY] = m;
       }
 
       // following mutations need function 'getElementsByClassName'
@@ -82,14 +73,14 @@ export function observeDocument(doc) {
         case HP_SUMMARY:
           injectHpSummary(doc);
           break;
-        case DEATH_SAVE_SUMMARY:
-          injectDeathSaveSummary(doc);
-          break;
         case DEATH_SAVE_PANE:
           injectDeathSavePane(doc);
           break;
         case PREFERENCE_PANE:
           injectPreferencesPane(doc);
+          break;
+        default:
+          console.warn("unknown mutation", k);
           break;
       }
     }

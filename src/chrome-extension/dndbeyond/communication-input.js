@@ -1,6 +1,6 @@
 import {
-  UPDATE_FROM_FOUNDRY_DEATH_SAVE,
   UPDATE_FROM_FOUNDRY_HP,
+  UPDATE_FROM_FOUNDRY_DEATH_SAVE,
 } from "../../global.js";
 import { EVENT_TO_DNDBEYOND } from "../common.js";
 import { supressMessages } from "../communication.js";

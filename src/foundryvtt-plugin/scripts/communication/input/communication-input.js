@@ -14,7 +14,8 @@ import {
   ROLL_INITIATIVE,
   ROLL_SKILL,
   UPDATE_FROM_BEYOND_DEATH_SAVE,
-  UPDATE_FROM_BEYOND_HP,
+  UPDATE_FROM_BEYOND_DAMAGE,
+  UPDATE_FROM_BEYOND_HEAL,
 } from "../../../../global.js";
 import { updateDeathSave, handleHpUpdate } from "../../update.js";
 import { getActor } from "../../actor.js";
@@ -73,8 +74,14 @@ export function listenForIncomingEvents() {
         case UPDATE_FROM_BEYOND_DEATH_SAVE:
           updateDeathSave(actor, evt.value);
           break;
-        case UPDATE_FROM_BEYOND_HP:
-          handleHpUpdate(actor, evt.value);
+        case UPDATE_FROM_BEYOND_DAMAGE:
+          console.log("UPDATE_FROM_BEYOND_DAMAGE");
+          // todo
+          break;
+        case UPDATE_FROM_BEYOND_HEAL:
+          console.log("UPDATE_FROM_BEYOND_HEAL");
+          // todo
+          // handleHpUpdate(actor, evt.value);
           break;
       }
     }

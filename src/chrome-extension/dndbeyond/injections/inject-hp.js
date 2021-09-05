@@ -1,24 +1,57 @@
 import { EVENT_FROM_DNDBEYOND, getUserUrl } from "../../common.js";
 import { notify } from "../../communication.js";
-import { UPDATE_FROM_BEYOND_HP, createSyncEvent } from "../../../global.js";
+import {
+  UPDATE_FROM_BEYOND_DAMAGE,
+  UPDATE_FROM_BEYOND_HEAL,
+  createSyncEvent,
+} from "../../../global.js";
 
-let lastHpMutation = undefined;
-
-export function handleHPChange(val) {
-  // todo mutation handle => innerText changed || render death-save element
-  if (val === lastHpMutation) {
-    console.log("same HP skipping message");
-    return;
-  }
-  lastHpMutation = val;
-  const evt = createSyncEvent(UPDATE_FROM_BEYOND_HP, val, getUserUrl());
-  notify(EVENT_FROM_DNDBEYOND, evt);
+function getChangeValue(container) {
+  return container.getElementsByClassName(
+    "ct-theme-input ct-health-summary__adjuster-field-input"
+  )[0].value;
 }
 
 export function injectHpSummary(doc) {
-  // todo set element with id and check for that id; don't execute if id exists!
-  console.log("injectHp");
-  // todo
+  const beyondSyncBtnHeal = document.getElementById(
+    "dndbeyond-sync-hpsummary-heal-btn"
+  );
+  const beyondSyncBtnDamage = document.getElementById(
+    "dndbeyond-sync-hpsummary-damage-btn"
+  );
+  if (beyondSyncBtnHeal && beyondSyncBtnDamage) {
+    return;
+  }
+
+  const container = doc.getElementsByClassName("ct-health-summary__hp")[0];
+
+  const healBtn = container.getElementsByClassName(
+    "ct-theme-button ct-health-summary__adjuster-button ct-health-summary__adjuster-button--heal ct-theme-button--outline ct-theme-button--interactive ct-button character-button ddbc-button character-button-block-small"
+  )[0];
+  healBtn.id = "dndbeyond-sync-hpsummary-heal-btn";
+  healBtn.classList += " dndsync-beyond-hp-btn";
+  healBtn.onclick = () => {
+    const val = getChangeValue(container);
+    if (!val) {
+      return;
+    }
+    const evt = createSyncEvent(UPDATE_FROM_BEYOND_HEAL, val, getUserUrl());
+    notify(EVENT_FROM_DNDBEYOND, evt);
+  };
+
+  const dmgBtn = container.getElementsByClassName(
+    "ct-theme-button ct-health-summary__adjuster-button ct-health-summary__adjuster-button--damage ct-theme-button--outline ct-theme-button--interactive ct-button character-button ddbc-button character-button-block-small"
+  )[0];
+  dmgBtn.id = "dndbeyond-sync-hpsummary-damage-btn";
+  dmgBtn.classList += " dndsync-beyond-hp-btn";
+  dmgBtn.onclick = () => {
+    const val = getChangeValue(container);
+    if (!val) {
+      return;
+    }
+    const evt = createSyncEvent(UPDATE_FROM_BEYOND_DAMAGE, val, getUserUrl());
+    notify(EVENT_FROM_DNDBEYOND, evt);
+  };
 }
 
 export function injectHpManager(doc) {
