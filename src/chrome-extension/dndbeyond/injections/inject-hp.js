@@ -6,7 +6,7 @@ import {
   createSyncEvent,
 } from "../../../global.js";
 
-function getChangeValue(container) {
+function getSummaryChangeValue(container) {
   return container.getElementsByClassName(
     "ct-theme-input ct-health-summary__adjuster-field-input"
   )[0].value;
@@ -31,7 +31,7 @@ export function injectHpSummary(doc) {
   healBtn.id = "dndbeyond-sync-hpsummary-heal-btn";
   healBtn.classList += " dndsync-beyond-hp-btn";
   healBtn.onclick = () => {
-    const val = getChangeValue(container);
+    const val = getSummaryChangeValue(container);
     if (!val) {
       return;
     }
@@ -45,7 +45,7 @@ export function injectHpSummary(doc) {
   dmgBtn.id = "dndbeyond-sync-hpsummary-damage-btn";
   dmgBtn.classList += " dndsync-beyond-hp-btn";
   dmgBtn.onclick = () => {
-    const val = getChangeValue(container);
+    const val = getSummaryChangeValue(container);
     if (!val) {
       return;
     }
@@ -54,9 +54,79 @@ export function injectHpSummary(doc) {
   };
 }
 
+// todo
+//  => inject on + and - btn's
+//  => collect clicks in state
+//  => on apply; send current state
+
+const hpManagerState = {
+  heal: 0,
+  dmg: 0,
+};
+
+// todo doesn't always register, may be a mutation detection problem
 export function injectHpManager(doc) {
-  // todo set element with id and check for that id; don't execute if id exists!
-  console.log("injectHpManager");
-  // todo
-  // override apply button so it WONT ask for approval!
+  const healBtn = document.getElementById("dndbeyond-sync-hp-heal-btn");
+  if (!healBtn) {
+    const btn = doc.getElementsByClassName(
+      "ct-theme-button action-increase ct-theme-button--filled ct-theme-button--interactive ct-button character-button ddbc-button character-button"
+    )[0];
+    btn.id = "dndbeyond-sync-hp-heal-btn";
+    btn.onclick = () => {
+      hpManagerState.heal += 1;
+    };
+  }
+
+  const dmgBtn = document.getElementById("dndbeyond-sync-hp-dmg-btn");
+  if (!dmgBtn) {
+    const btn = doc.getElementsByClassName(
+      "ct-theme-button action-decrease ct-theme-button--filled ct-theme-button--interactive ct-button character-button ddbc-button character-button"
+    )[0];
+    btn.id = "dndbeyond-sync-hp-dmg-btn";
+    btn.onclick = () => {
+      hpManagerState.dmg += 1;
+    };
+  }
+
+  const btn = document.getElementById("dndbeyond-sync-hp-pane-btn");
+  if (btn) {
+    return;
+  }
+
+  const container = doc.getElementsByClassName("ct-sidebar__pane-content")[0];
+  const actions = container.getElementsByClassName(
+    "ct-health-manager__actions"
+  )[0];
+  console.log("actions", actions);
+  if (!actions) {
+    return;
+  }
+
+  const applyBtn = Array.from(
+    actions.getElementsByClassName("ct-button__content")
+  ).find((btn) => {
+    return btn.innerText.toLowerCase() === "apply changes";
+  });
+  applyBtn.id = "dndbeyond-sync-hp-pane-btn";
+  applyBtn.onclick = () => {
+    const isHeal = hpManagerState.heal > hpManagerState.dmg;
+    const val = isHeal
+      ? hpManagerState.heal - hpManagerState.dmg
+      : hpManagerState.dmg - hpManagerState.heal;
+
+    if (val === 0) {
+      return;
+    }
+
+    const evtName = isHeal
+      ? UPDATE_FROM_BEYOND_HEAL
+      : UPDATE_FROM_BEYOND_DAMAGE;
+
+    const evt = createSyncEvent(evtName, val, getUserUrl());
+    notify(EVENT_FROM_DNDBEYOND, evt);
+
+    hpManagerState.dmg = 0;
+    hpManagerState.heal = 0;
+  };
+  console.log("applyBtn", applyBtn);
 }
