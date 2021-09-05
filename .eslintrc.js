@@ -1,5 +1,5 @@
 module.exports = {
   root: true,
   parser: "eslint/parser",
-  extends: ["eslint:recommended"],
+  extends: ["eslint:recommended", "prettier"],
 };
