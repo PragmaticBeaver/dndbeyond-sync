@@ -1,4 +1,4 @@
-import { reduceSidePane } from "../common.js";
+import { reduceSidePane } from "../../common.js";
 
 export function updateHP(hpValue) {
   const healthSummary = document.getElementsByClassName(

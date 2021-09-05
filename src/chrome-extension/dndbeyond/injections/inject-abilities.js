@@ -1,10 +1,10 @@
-import { EVENT_FROM_DNDBEYOND, getUserUrl, insertNode } from "../common.js";
-import { notify } from "../communication.js";
+import { EVENT_FROM_DNDBEYOND, getUserUrl, insertNode } from "../../common.js";
+import { notify } from "../../communication.js";
 import {
   ROLL_ABILITY,
   ROLL_ABILITY_SAVE,
   createSyncEvent,
-} from "../../global.js";
+} from "../../../global.js";
 
 /**
  * Injects notification callback into ability buttons.

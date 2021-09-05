@@ -3,6 +3,7 @@
 ## Todo
 
 - take DMG / heal => actor.applyDamage
+  - bug: PC dead; inside HP management click "+1 HP" => sends event without "apply"
   - update mechanic => HP (also part of death-save, because crit-success = 1 HP!)
   - handle change from 1 HP to death save menu (0HP) => send hp change with value 0
   - take dmg

@@ -1,6 +1,6 @@
-import { EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
-import { notify } from "../communication.js";
-import { ROLL_INITIATIVE, createSyncEvent } from "../../global.js";
+import { EVENT_FROM_DNDBEYOND, getUserUrl } from "../../common.js";
+import { notify } from "../../communication.js";
+import { ROLL_INITIATIVE, createSyncEvent } from "../../../global.js";
 
 /**
  * Injects notification callback into initiative button.

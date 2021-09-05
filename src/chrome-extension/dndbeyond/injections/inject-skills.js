@@ -1,6 +1,6 @@
-import { ROLL_SKILL, createSyncEvent } from "../../global.js";
-import { EVENT_FROM_DNDBEYOND, getUserUrl, insertNode } from "../common.js";
-import { notify } from "../communication.js";
+import { ROLL_SKILL, createSyncEvent } from "../../../global.js";
+import { EVENT_FROM_DNDBEYOND, getUserUrl, insertNode } from "../../common.js";
+import { notify } from "../../communication.js";
 
 /**
  * Injects notification callback into skill buttons.

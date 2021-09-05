@@ -1,16 +1,13 @@
-import { EVENT_TO_DNDBEYOND, reduceSidePane } from "../common.js";
-import { injectAbilities, injectAbilitySaves } from "./inject-abilities.js";
-import { injectSkills } from "./inject-skills.js";
-import { injectDeathSave } from "./inject-death-save.js";
-import { injectInitiative } from "./inject-initiative.js";
-import { updateDeathSave } from "./update-death-save.js";
+import { reduceSidePane } from "../common.js";
 import {
-  UPDATE_FROM_FOUNDRY_DEATH_SAVE,
-  UPDATE_FROM_FOUNDRY_HP,
-} from "../../global.js";
-import { updateHP } from "./update-hp.js";
-import { handleHPChange } from "./inject-hp.js";
-import { supressMessages, shouldSuppressMsg } from "../communication.js";
+  injectAbilities,
+  injectAbilitySaves,
+} from "./injections/inject-abilities.js";
+import { injectSkills } from "./injections/inject-skills.js";
+import { injectInitiative } from "./injections/inject-initiative.js";
+import { listenForIncomingEvents } from "./communication-input.js";
+import { observeDocument } from "./injections/observable -injections.js";
+import { injectPreferencesPane } from "./injections/inject-preferences-pane.js";
 
 // ENTRY FILE FOR D&D BEYOND CODE
 
@@ -38,116 +35,8 @@ function disableDiceRolling(doc) {
   });
   btn.click();
 
-  overridePreferencesPane(doc);
+  injectPreferencesPane(doc);
   reduceSidePane(doc);
-}
-
-function overridePreferencesPane(doc) {
-  // disable dice rolling
-  const preferencesPane = doc.getElementsByClassName("ct-preferences-pane")[0];
-  const fields = preferencesPane.getElementsByClassName(
-    "ct-preferences-pane__field ct-preferences-pane__field--toggle"
-  );
-  const field = Array.from(fields).find((f) => {
-    const heading = f.getElementsByClassName(
-      "ct-sidebar__subheading ct-preferences-pane__field-heading"
-    )[0].innerText;
-    if (heading.toLowerCase() === "dice rolling") {
-      return f;
-    }
-  });
-  const toggleContainer = field.getElementsByClassName(
-    "ct-preferences-pane__field-input"
-  )[0];
-  const toggle = field.getElementsByClassName(
-    "ddbc-toggle-field  ddbc-toggle-field--is-enabled ddbc-toggle-field--is-interactive"
-  )[0];
-  if (toggle) {
-    toggle.click();
-  }
-
-  // hide toggle
-  toggleContainer.style = "display: none;";
-
-  // set custom text
-  const desc = field.getElementsByClassName(
-    "ct-preferences-pane__field-description"
-  )[0];
-  desc.innerText = "Disabled by browser extension 'D&D Beyond Sync'.";
-}
-
-function observeDocument(doc) {
-  const observer = new window.MutationObserver((mutations, _observer) => {
-    for (const m of mutations) {
-      const element = m.target;
-
-      try {
-        element.getElementsByClassName("");
-      } catch {
-        // HP changes
-        const isCurrentHpMutation =
-          m.target.nodeName === "#text" && !isNaN(m.target.nodeValue);
-        if (isCurrentHpMutation) {
-          handleHPChange(m.target.data);
-        }
-        continue;
-      }
-
-      // death save
-      const deathSavesGroups = element.getElementsByClassName(
-        "ct-health-manager__deathsaves-groups"
-      )[0];
-      if (deathSavesGroups) {
-        injectDeathSave(doc);
-        continue;
-      }
-
-      // preference pane
-      const inactiveToggle = element.getElementsByClassName(
-        "ddbc-toggle-field  ddbc-toggle-field--is-disabled ddbc-toggle-field--is-interactive"
-      )[0];
-      const activeToggle = element.getElementsByClassName(
-        "ddbc-toggle-field  ddbc-toggle-field--is-enabled ddbc-toggle-field--is-interactive"
-      )[0];
-      if (inactiveToggle || activeToggle) {
-        overridePreferencesPane(document);
-        continue;
-      }
-    }
-  });
-
-  observer.observe(doc, {
-    subtree: true,
-    childList: true,
-    characterData: true,
-    subtree: true,
-  });
-}
-
-/**
- * Listens for messages from content-script ("dndbeyond-sync-to-beyond" DOM events).
- */
-function listenForIncomingEvents() {
-  // todo create event type for updates
-  document.addEventListener(EVENT_TO_DNDBEYOND, (args) => {
-    const evt = args.detail;
-    // console.log("event", evt);
-
-    const suppress = evt.suppress;
-    supressMessages(suppress);
-    console.log("suppress msg", suppress);
-
-    switch (evt.type) {
-      case UPDATE_FROM_FOUNDRY_DEATH_SAVE:
-        updateDeathSave(evt.value);
-        break;
-      case UPDATE_FROM_FOUNDRY_HP:
-        updateHP(evt.value);
-        break;
-    }
-
-    // todo HP (also part of death-save, because crit-success = 1 HP!)
-  });
 }
 
 /**

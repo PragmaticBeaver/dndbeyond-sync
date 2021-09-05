@@ -1,6 +1,6 @@
-import { EVENT_FROM_DNDBEYOND, getUserUrl } from "../common.js";
-import { notify } from "../communication.js";
-import { UPDATE_FROM_BEYOND_HP, createSyncEvent } from "../../global.js";
+import { EVENT_FROM_DNDBEYOND, getUserUrl } from "../../common.js";
+import { notify } from "../../communication.js";
+import { UPDATE_FROM_BEYOND_HP, createSyncEvent } from "../../../global.js";
 
 let lastHpMutation = undefined;
 
