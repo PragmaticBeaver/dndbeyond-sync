@@ -54,17 +54,11 @@ export function injectHpSummary(doc) {
   };
 }
 
-// todo
-//  => inject on + and - btn's
-//  => collect clicks in state
-//  => on apply; send current state
-
 const hpManagerState = {
   heal: 0,
   dmg: 0,
 };
 
-// todo doesn't always register, may be a mutation detection problem
 export function injectHpManager(doc) {
   const healBtn = document.getElementById("dndbeyond-sync-hp-heal-btn");
   if (!healBtn) {
@@ -97,7 +91,6 @@ export function injectHpManager(doc) {
   const actions = container.getElementsByClassName(
     "ct-health-manager__actions"
   )[0];
-  console.log("actions", actions);
   if (!actions) {
     return;
   }
@@ -128,5 +121,4 @@ export function injectHpManager(doc) {
     hpManagerState.dmg = 0;
     hpManagerState.heal = 0;
   };
-  console.log("applyBtn", applyBtn);
 }

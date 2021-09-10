@@ -22,10 +22,16 @@ export function observeDocument(doc) {
       const element = m.target;
 
       // console.log("m", m);
-      // console.log("element", element);
+      // console.log("target/element", element);
+      // console.log("element?.className", element?.className);
+      // console.log("element?.parentElement", element?.parentElement);
+      // console.log("element?.parentNode", element?.parentNode);
 
       // side pane - health-manager rendered
-      const isHpSidePane = element?.className?.trim() === "ct-health-manager";
+      const isHpSidePane =
+        element?.className?.trim() === "ct-health-manager" || // initial change
+        element?.parentElement?.className?.trim() ===
+          "ct-health-manager__adjuster-new-value";
       if (isHpSidePane) {
         mutationsToHandle[HP_MUT_PANE] = m;
       }
