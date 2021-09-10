@@ -59,6 +59,25 @@ const hpManagerState = {
   dmg: 0,
 };
 
+function apply() {
+  const isHeal = hpManagerState.heal > hpManagerState.dmg;
+  const val = isHeal
+    ? hpManagerState.heal - hpManagerState.dmg
+    : hpManagerState.dmg - hpManagerState.heal;
+
+  if (val === 0) {
+    return;
+  }
+
+  const evtName = isHeal ? UPDATE_FROM_BEYOND_HEAL : UPDATE_FROM_BEYOND_DAMAGE;
+
+  const evt = createSyncEvent(evtName, val, getUserUrl());
+  notify(EVENT_FROM_DNDBEYOND, evt);
+
+  hpManagerState.dmg = 0;
+  hpManagerState.heal = 0;
+}
+
 export function injectHpManager(doc) {
   const healBtn = document.getElementById("dndbeyond-sync-hp-heal-btn");
   if (!healBtn) {
@@ -82,43 +101,23 @@ export function injectHpManager(doc) {
     };
   }
 
-  const btn = document.getElementById("dndbeyond-sync-hp-pane-btn");
-  if (btn) {
-    return;
-  }
-
+  // todo first render does not work, why?
   const container = doc.getElementsByClassName("ct-sidebar__pane-content")[0];
   const actions = container.getElementsByClassName(
     "ct-health-manager__actions"
   )[0];
   if (!actions) {
+    console.log("no actions rendered");
     return;
   }
 
-  const applyBtn = Array.from(
+  const applySpan = Array.from(
     actions.getElementsByClassName("ct-button__content")
   ).find((btn) => {
     return btn.innerText.toLowerCase() === "apply changes";
   });
-  applyBtn.id = "dndbeyond-sync-hp-pane-btn";
-  applyBtn.onclick = () => {
-    const isHeal = hpManagerState.heal > hpManagerState.dmg;
-    const val = isHeal
-      ? hpManagerState.heal - hpManagerState.dmg
-      : hpManagerState.dmg - hpManagerState.heal;
+  applySpan.onclick = apply;
 
-    if (val === 0) {
-      return;
-    }
-
-    const evtName = isHeal
-      ? UPDATE_FROM_BEYOND_HEAL
-      : UPDATE_FROM_BEYOND_DAMAGE;
-
-    const evt = createSyncEvent(evtName, val, getUserUrl());
-    notify(EVENT_FROM_DNDBEYOND, evt);
-
-    hpManagerState.dmg = 0;
-    hpManagerState.heal = 0;
-  };
+  const applyBtn = applySpan.parentElement;
+  applyBtn.onclick = apply;
 }
