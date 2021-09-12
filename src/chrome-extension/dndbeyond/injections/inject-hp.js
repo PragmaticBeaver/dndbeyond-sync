@@ -54,60 +54,34 @@ export function injectHpSummary(doc) {
   };
 }
 
-const hpManagerState = {
-  heal: 0,
-  dmg: 0,
-};
-
-function apply() {
-  const isHeal = hpManagerState.heal > hpManagerState.dmg;
-  const val = isHeal
-    ? hpManagerState.heal - hpManagerState.dmg
-    : hpManagerState.dmg - hpManagerState.heal;
-
+function apply(currentHp, newHp) {
+  const val = Math.abs(currentHp - newHp);
   if (val === 0) {
     return;
   }
 
+  const isHeal = currentHp < newHp;
   const evtName = isHeal ? UPDATE_FROM_BEYOND_HEAL : UPDATE_FROM_BEYOND_DAMAGE;
 
   const evt = createSyncEvent(evtName, val, getUserUrl());
   notify(EVENT_FROM_DNDBEYOND, evt);
-
-  hpManagerState.dmg = 0;
-  hpManagerState.heal = 0;
 }
 
 export function injectHpManager(doc) {
-  const healBtn = document.getElementById("dndbeyond-sync-hp-heal-btn");
-  if (!healBtn) {
-    const btn = doc.getElementsByClassName(
-      "ct-theme-button action-increase ct-theme-button--filled ct-theme-button--interactive ct-button character-button ddbc-button character-button"
-    )[0];
-    btn.id = "dndbeyond-sync-hp-heal-btn";
-    btn.onclick = () => {
-      hpManagerState.heal += 1;
-    };
-  }
-
-  const dmgBtn = document.getElementById("dndbeyond-sync-hp-dmg-btn");
-  if (!dmgBtn) {
-    const btn = doc.getElementsByClassName(
-      "ct-theme-button action-decrease ct-theme-button--filled ct-theme-button--interactive ct-button character-button ddbc-button character-button"
-    )[0];
-    btn.id = "dndbeyond-sync-hp-dmg-btn";
-    btn.onclick = () => {
-      hpManagerState.dmg += 1;
-    };
-  }
-
-  // todo first render does not work, why?
   const container = doc.getElementsByClassName("ct-sidebar__pane-content")[0];
+
+  const currentHp = container.getElementsByClassName(
+    "ct-health-manager__health-item-value"
+  )[0].innerText;
+
+  const newHp = container.getElementsByClassName(
+    "ct-health-manager__adjuster-new-value"
+  )[0].innerText;
+
   const actions = container.getElementsByClassName(
     "ct-health-manager__actions"
   )[0];
   if (!actions) {
-    console.log("no actions rendered");
     return;
   }
 
@@ -116,8 +90,8 @@ export function injectHpManager(doc) {
   ).find((btn) => {
     return btn.innerText.toLowerCase() === "apply changes";
   });
-  applySpan.onclick = apply;
-
   const applyBtn = applySpan.parentElement;
-  applyBtn.onclick = apply;
+  applyBtn.onclick = () => {
+    apply(currentHp, newHp);
+  };
 }

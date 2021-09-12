@@ -14,11 +14,10 @@ export function observeDocument(doc) {
 
       // console.log("m", m);
       // console.log("target/element", element);
-      // console.log("element?.className", element?.className);
 
       // side pane - health-manager rendered
       const isHpSidePane =
-        element?.className?.trim() === "ct-health-manager" || // initial change
+        element?.className?.trim() === "ct-health-manager" || // initial render
         element?.parentElement?.className?.trim() ===
           "ct-health-manager__adjuster-new-value";
       if (isHpSidePane) {
