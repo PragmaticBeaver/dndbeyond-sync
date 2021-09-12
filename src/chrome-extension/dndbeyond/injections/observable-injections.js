@@ -14,8 +14,9 @@ export function observeDocument(doc) {
 
       // console.log("m", m);
       // console.log("target/element", element);
+      // console.log("m.addedNodes", m.addedNodes);
 
-      // side pane - health-manager rendered
+      // side pane - health-manager
       const isHpSidePane =
         element?.className?.trim() === "ct-health-manager" || // initial render
         element?.parentElement?.className?.trim() ===
@@ -24,9 +25,25 @@ export function observeDocument(doc) {
         injectHpManager(doc);
       }
 
-      // hp summary rendered
+      // hp summary manual HP input
+      let hpSummaryInput;
+      if (m.addedNodes.length > 0) {
+        hpSummaryInput = Array.from(m.addedNodes).find((n) => {
+          return (
+            n.className.trim() ===
+            "ct-theme-input ct-health-summary__hp-item-input"
+          );
+        });
+      }
+      if (hpSummaryInput) {
+        console.log("hp summary manual HP input");
+        // todo
+      }
+
+      // hp summary
       const isHpSummary =
-        element?.className?.trim() === "ct-health-summary__hp";
+        element?.className?.trim() === "ct-health-summary__hp" &&
+        !hpSummaryInput;
       if (isHpSummary) {
         injectHpSummary(doc);
       }
@@ -38,7 +55,7 @@ export function observeDocument(doc) {
         continue;
       }
 
-      // side pane - death save rendered
+      // side pane - death save
       const isDeathSavePane = element.getElementsByClassName(
         "ct-health-manager__deathsaves-groups"
       )[0];
@@ -46,7 +63,7 @@ export function observeDocument(doc) {
         injectDeathSavePane(doc);
       }
 
-      // preference pane rendered
+      // preference pane
       const inactiveToggle = element.getElementsByClassName(
         "ddbc-toggle-field  ddbc-toggle-field--is-disabled ddbc-toggle-field--is-interactive"
       )[0];

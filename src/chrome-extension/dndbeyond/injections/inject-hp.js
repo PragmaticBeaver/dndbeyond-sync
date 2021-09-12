@@ -6,6 +6,8 @@ import {
   createSyncEvent,
 } from "../../../global.js";
 
+// HP summary
+
 function getSummaryChangeValue(container) {
   return container.getElementsByClassName(
     "ct-theme-input ct-health-summary__adjuster-field-input"
@@ -53,6 +55,8 @@ export function injectHpSummary(doc) {
     notify(EVENT_FROM_DNDBEYOND, evt);
   };
 }
+
+// HP manager
 
 function apply(currentHp, newHp) {
   const val = Math.abs(currentHp - newHp);
