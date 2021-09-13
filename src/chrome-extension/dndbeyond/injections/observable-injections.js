@@ -101,7 +101,7 @@ function detectMutations(mutations) {
 function handleMutations(mutationsDto) {
   const doc = document;
 
-  console.log("mutationsDto", mutationsDto);
+  // console.log("mutationsDto", mutationsDto);
 
   for (const k of Object.keys(mutationsDto)) {
     switch (k) {
