@@ -3,8 +3,25 @@ import { notify } from "../../communication.js";
 import {
   UPDATE_FROM_BEYOND_DAMAGE,
   UPDATE_FROM_BEYOND_HEAL,
+  UPDATE_FROM_BEYOND_SET_HP,
   createSyncEvent,
 } from "../../../global.js";
+
+// HP manual change
+export function handleManualHpChange(doc) {
+  const container = doc.getElementsByClassName("ct-quick-info__health")[0];
+  const valContainer = Array.from(
+    container.getElementsByClassName("ct-health-summary__hp-item-label")
+  ).find((n) => {
+    return n.innerText.trim().toLowerCase() === "current";
+  });
+  const val = valContainer.parentElement.getElementsByClassName(
+    "ct-health-summary__hp-number"
+  )[0].innerText;
+
+  const evt = createSyncEvent(UPDATE_FROM_BEYOND_SET_HP, val, getUserUrl());
+  notify(EVENT_FROM_DNDBEYOND, evt);
+}
 
 // HP summary
 
