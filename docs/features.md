@@ -3,13 +3,19 @@
 ## Todo
 
 - take DMG / heal => actor.applyDamage
-  - bug: PC dead; inside HP management click "+1 HP" => sends event without "apply"
+  - bug: manual input to 0 HP doesn't send dmg event!
   - update mechanic => HP (also part of death-save, because crit-success = 1 HP!)
-  - handle change from 1 HP to death save menu (0HP) => send hp change with value 0
-  - take dmg
-  - heal
+  - take dmg (foundry)
+  - heal (foundry)
+  - react to hp set (foundry)
   - respect temp-HP
-- hit die => actor.rollHitDie
+    - set from foundry
+    - set from beyond
+    - respect when taking dmg (foundry)
+    - respect when taking dmg (beyond)
+- hit die
+  - foundry => actor.rollHitDie
+  - beyond
 - passive stats
 - feat / trait (post into foundry)
 - inspiration
