@@ -48,24 +48,39 @@ function inject() {
   console.log("injecting ...");
   const doc = document.documentElement;
 
-  disableDiceRolling(doc);
+  // todo handle errors / missing HTML elements and remove giant try-catch
+  try {
+    disableDiceRolling(doc);
 
-  injectAbilities(doc);
-  injectAbilitySaves(doc);
-  injectSkills(doc);
-  injectInitiative(doc);
+    injectAbilities(doc);
+    injectAbilitySaves(doc);
+    injectSkills(doc);
+    injectInitiative(doc);
 
-  injectHpSummary(doc);
-  injectDeathSaveSummary(doc);
+    injectHpSummary(doc);
+    injectDeathSaveSummary(doc);
 
-  observeDocument(doc);
+    observeDocument(doc);
+  } catch (err) {
+    console.warn("injection error", err);
+    return false;
+  }
+
+  return true;
 }
 
-const interval = setInterval(() => {
-  if (document.readyState !== "complete") {
-    return;
-  }
-  inject();
-  listenForIncomingEvents();
-  clearInterval(interval);
-}, 1000);
+window.onload = () => {
+  const interval = setInterval(() => {
+    listenForIncomingEvents();
+    const hasInjected = inject();
+    if (hasInjected) {
+      clearInterval(interval);
+    }
+  }, 1000);
+};
+
+window.onunload = () => {
+  console.log("window unloaded");
+  // im here to disable certain browser caching!
+  // see: https://stackoverflow.com/questions/1033398/how-to-execute-a-function-when-page-has-fully-loaded
+};
