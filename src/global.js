@@ -10,6 +10,7 @@ export const UPDATE_FROM_BEYOND_DEATH_SAVE = "update-f-beyond-death-save";
 export const UPDATE_FROM_BEYOND_DAMAGE = "update-f-beyond-hp-dmg";
 export const UPDATE_FROM_BEYOND_HEAL = "update-f-beyond-hp-heal";
 export const UPDATE_FROM_BEYOND_SET_HP = "update-f-beyond-hp-set";
+export const UPDATE_FROM_BEYOND_PC_DEATH = "update-f-beyond-pc-death";
 
 // events from FoundryVTT to D&D Beyond
 export const UPDATE_FROM_FOUNDRY_DEATH_SAVE = "update-f-foundry-death-save";

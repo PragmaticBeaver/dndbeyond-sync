@@ -4,6 +4,7 @@
 
 - take DMG / heal => actor.applyDamage
   - bug: manual input to 0 HP doesn't send dmg event!
+    => switched to death save as new mutation and mutationHandling
   - update mechanic => HP (also part of death-save, because crit-success = 1 HP!)
   - take dmg (foundry)
   - heal (foundry)

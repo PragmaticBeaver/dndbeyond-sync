@@ -17,16 +17,60 @@ const HP_SUMMARY = "hp-summary";
 const DEATH_SAVE_PANE = "ds-pane";
 const PREFERENCE_PANE = "pref-pane";
 const HP_MANUAL_CHANGE = "hp-manual";
+// container for DOM render / unrender changes
+const DOM_CHANGE = "dom-change";
+// pc died
+const HP_SUMMARY_UNRENDERED = "hp-summary-removed";
+const DEATH_SAVES_RENDERED = "ds-rendered";
+
+function detectMutsFromRemovedNodes(mutation) {
+  Array.from(mutation.removedNodes).forEach((n) => {
+    // hp summary manual HP input
+    if (
+      n.className?.trim() === "ct-theme-input ct-health-summary__hp-item-input"
+    ) {
+      mutationsToHandle[HP_MANUAL_CHANGE]["input"] = mutation;
+    }
+
+    // hp-summary unrendered
+    if (n.className?.trim() === "ct-health-summary__hp-number") {
+      mutationsToHandle[DOM_CHANGE][HP_SUMMARY_UNRENDERED] = mutation;
+    }
+  });
+}
+
+function detectMutsFromAddedNodes(mutation) {
+  Array.from(mutation.addedNodes).forEach((n) => {
+    // hp summary manual HP input
+    if (n.className?.trim() === "ct-health-summary__hp-number") {
+      mutationsToHandle[HP_MANUAL_CHANGE]["div"] = mutation;
+    }
+
+    // death-saves rendered
+    if (n.className?.trim() === "ct-health-summary__deathsaves-label") {
+      mutationsToHandle[DOM_CHANGE][DEATH_SAVES_RENDERED] = mutation;
+    }
+  });
+}
 
 function detectMutations(mutations) {
   const mutationsToHandle = {};
+  mutationsToHandle[HP_MANUAL_CHANGE] = {};
+  mutationsToHandle[DOM_CHANGE] = {};
 
   for (const m of mutations) {
     const element = m.target;
 
-    // console.log("===");
-    // console.log("m", m);
-    // console.log("target/element", element);
+    console.log("===");
+    console.log("m", m);
+    console.log("target/element", element);
+
+    if (m.removedNodes.length > 0) {
+      detectMutsFromRemovedNodes(m);
+    }
+    if (m.addedNodes.length > 0) {
+      detectMutsFromAddedNodes(m);
+    }
 
     // side pane - health-manager
     const isHpSidePane =
@@ -35,31 +79,6 @@ function detectMutations(mutations) {
         "ct-health-manager__adjuster-new-value";
     if (isHpSidePane) {
       mutationsToHandle[HP_MANAGER] = m;
-    }
-
-    // hp summary manual HP input
-    if (m.removedNodes.length > 0) {
-      Array.from(m.removedNodes).forEach((n) => {
-        if (
-          n.className?.trim() ===
-          "ct-theme-input ct-health-summary__hp-item-input"
-        ) {
-          if (!mutationsToHandle[HP_MANUAL_CHANGE]) {
-            mutationsToHandle[HP_MANUAL_CHANGE] = {};
-          }
-          mutationsToHandle[HP_MANUAL_CHANGE]["input"] = m;
-        }
-      });
-    }
-    if (m.addedNodes.length > 0) {
-      Array.from(m.addedNodes).forEach((n) => {
-        if (n.className?.trim() === "ct-health-summary__hp-number") {
-          if (!mutationsToHandle[HP_MANUAL_CHANGE]) {
-            mutationsToHandle[HP_MANUAL_CHANGE] = {};
-          }
-          mutationsToHandle[HP_MANUAL_CHANGE]["div"] = m;
-        }
-      });
     }
 
     // hp summary
@@ -125,6 +144,16 @@ function handleMutations(mutationsDto) {
         break;
       case PREFERENCE_PANE:
         injectPreferencesPane(doc);
+        break;
+      case DOM_CHANGE:
+        const domChanges = mutationsDto[DOM_CHANGE];
+
+        const pcDied =
+          domChanges[HP_SUMMARY_UNRENDERED] && domChanges[DEATH_SAVES_RENDERED];
+        if (pcDied) {
+          // todo - UPDATE_FROM_BEYOND_PC_DEATH
+        }
+
         break;
       default:
         console.warn("unknown mutation", k);
