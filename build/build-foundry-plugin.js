@@ -4,13 +4,17 @@ import path from "path";
 
 const rootPath = "./src/foundryvtt-plugin/";
 const distDir = "./dist";
-const outDir = distDir + "/foundry";
+const foundryDir = distDir + "/foundry-plugin";
+const outDir = foundryDir + "/dndbeyond-sync";
 const outDirStyles = outDir + "/styles";
 const outDirScripts = outDir + "/scripts";
 
 // create dist directories
 if (!fs.existsSync(distDir)) {
   fs.mkdirSync(distDir);
+}
+if (!fs.existsSync(foundryDir)) {
+  fs.mkdirSync(foundryDir);
 }
 if (!fs.existsSync(outDir)) {
   fs.mkdirSync(outDir);
