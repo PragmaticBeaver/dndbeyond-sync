@@ -2,6 +2,10 @@
 
 ## Todo
 
+- disable extension
+  - if dice rolling is enabled
+  - and show msg to user "pls disable dice rolling and click extention icon")!
+  - click on extension icon restarts it
 - take DMG / heal => actor.applyDamage
   - bug: manual input to 0 HP doesn't send dmg event!
     => switched to death save as new mutation and mutationHandling
@@ -56,3 +60,7 @@ Note: current scope only applies to Browser
 - implementation of websocket inside background.js shouldn't be a problem
 - what about "script idle" ? can background.js run permanent like Manifest v2 persistent:true ?
   - other option is to implement websocket for each content-script
+
+## tablet & small screen support!
+
+- tablet mode will break the website!

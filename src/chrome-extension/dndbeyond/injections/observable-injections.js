@@ -7,7 +7,6 @@ import {
   injectHpSummary,
   injectHpManager,
 } from "./inject-hp.js";
-import { injectPreferencesPane } from "./inject-preferences-pane.js";
 
 // todo idea - simple attach callback to "change HP"-btn's; onclick => collect current value and notify!
 
@@ -143,7 +142,7 @@ function handleMutations(mutationsDto) {
         injectDeathSavePane(doc);
         break;
       case PREFERENCE_PANE:
-        injectPreferencesPane(doc);
+        // do nothing
         break;
       case DOM_CHANGE:
         const domChanges = mutationsDto[DOM_CHANGE];
