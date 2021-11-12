@@ -17,6 +17,10 @@ if (!fs.existsSync(outDir)) {
 // copy manifest
 fs.copyFileSync(rootPath + "manifest.json", outDir + "/manifest.json");
 
+// copy extension popup (HTML & its JS)
+fs.copyFileSync(rootPath + "popup.html", outDir + "/popup.html");
+fs.copyFileSync(rootPath + "popup.js", outDir + "/popup.js");
+
 // copy styles
 fs.copyFileSync(
   path.join(rootPath, "dndbeyond", "dndbeyond-injection.css"),

@@ -5,6 +5,9 @@
   "manifest_version": 3,
   "permissions": ["storage", "activeTab", "tabs", "scripting"],
   "host_permissions": ["*://*.dndbeyond.com/*", "*://*/game"],
+  "action": {
+    "default_popup": "popup.html"
+  },
   "web_accessible_resources": [
     {
       "resources": ["dndbeyond-injection.js", "dndbeyond-injection.css"],
