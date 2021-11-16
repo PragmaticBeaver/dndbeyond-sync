@@ -1,6 +1,3 @@
-const changeColor = document.getElementById("changeColor");
-changeColor.style.backgroundColor = "red";
-
 const refreshBtn = document.getElementById("refresh-btn");
 refreshBtn.onclick = () => refreshInjections();
 
