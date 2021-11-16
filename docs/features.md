@@ -2,10 +2,10 @@
 
 ## Todo
 
-- disable extension
-  - if dice rolling is enabled
-  - and show msg to user "pls disable dice rolling and click extention icon")!
-  - click on extension icon restarts it
+- implement plugin to be able to handle dice-rolling and non dice-rolling?
+  - research how beyond 20 does it
+  - is an option for this tool?
+- error dialog with notification for "reload using popup"
 - take DMG / heal => actor.applyDamage
   - bug: manual input to 0 HP doesn't send dmg event!
     => switched to death save as new mutation and mutationHandling
