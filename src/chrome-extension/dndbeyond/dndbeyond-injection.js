@@ -31,24 +31,22 @@ function inject() {
     observeDocument(doc);
   } catch (err) {
     console.warn("injection error", err);
-    return false;
+    return err;
   }
-
-  return true;
 }
 
 window.onload = () => {
   const interval = setInterval(() => {
-    listenForIncomingEvents();
-    const hasInjected = inject();
-    if (hasInjected) {
+    const error = inject();
+    if (!error) {
+      listenForIncomingEvents();
       clearInterval(interval);
     }
   }, 1000);
 };
 
 window.onunload = () => {
-  console.log("window unloaded");
+  console.log("D&D Beyond window unloaded");
   // im here to disable certain browser caching!
   // see: https://stackoverflow.com/questions/1033398/how-to-execute-a-function-when-page-has-fully-loaded
 };
